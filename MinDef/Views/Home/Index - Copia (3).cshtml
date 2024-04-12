@@ -1,0 +1,437 @@
+﻿@{
+    ViewData["Title"] = "Indicadores";
+}
+<style>
+    .font-large{
+        font-size: x-large;
+    }
+
+    .product-info {
+        margin-left: 5px!important;
+    }
+
+    .zoomable {
+        width: 200px;
+        height: 200px;
+        background-color: lightblue;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+    }
+
+</style>
+<script src="~/js/jquery.knob.js"></script>
+<div class="content">
+    <div class="row">
+        <div class="col-md-1 col-sm-6 col-xs-12"></div>
+        <div class="col-md-2 col-sm-6 col-xs-12">
+            <div class="info-box miDiv" id="1" data-title="Ejecución Presupuestaria" style="text-align: center;height: 215px;">
+                <div class="row" style="padding-top: 5%;    height: 115px;">
+                    <img src="~/images/icon/file-invoice-dollar-solid.svg" alt="Descripción del icono" style="width: 80px;">
+                </div>
+                <div class="row" style=" padding: 5%;">
+                    <span class="font-large">Ejecución</span>
+                    <span class="font-large">Presupuestaria</span>              
+                </div>  
+            </div>
+        </div>
+
+
+        <div class="col-md-2 col-sm-6 col-xs-12">
+            <div class="info-box" id="2" data-title="Ejecución Ahorros" style="text-align: center;height: 215px;">
+                <div class="row" style="padding-top: 5%;    height: 115px;">
+                    <img src="~/images/icon/piggy-bank-solid.svg" alt="Descripción del icono" style="width: 119px;">
+                </div>
+                <div class="row" style=" padding: 5%;    padding-top: 30px;">
+                    <span class="font-large">Ahorros</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-2 col-sm-6 col-xs-12">
+            <div class="info-box" id="3" data-title="Marco Normativo" style="text-align: center;height: 215px;">
+                <div class="row" style="padding-top: 5%;    height: 115px;">
+                    <img src="~/images/icon/scale-balanced-solid.svg" alt="Descripción del icono" style="width: 130px;">
+                </div>
+                <div class="row" style=" padding: 5%;    height: 115px;    padding-top: 30px;">
+                    <span class="font-large">Marco</span>
+                    <span class="font-large">Normativo</span>
+                </div>
+            </div>
+        </div>
+
+             <div class="col-md-2 col-sm-6 col-xs-12">
+            <div class="info-box" id="4" data-title="Proyectos Prioritarios" style="text-align: center;height: 215px;">
+                <div class="row" style="padding-top: 5%;    height: 115px;">
+                    <img src="~/images/icon/code-branch-solid.svg" alt="Descripción del icono" style="width: 90px;">
+                </div>
+                <div class="row" style=" padding: 5%;    padding-top: 30px;">
+                    <span class="font-large">Proyectos</span>
+                    <span class="font-large">Prioritarios</span>              
+                </div>  
+            </div>
+        </div>
+
+        <div class="col-md-2 col-sm-6 col-xs-12">
+            <div class="info-box" id="5" data-title="Comunicación" style="text-align: center;height: 215px;">
+                <div class="row" style="padding-top: 5%;">
+                    <img src="~/images/icon/bullhorn-solid.svg" alt="Descripción del icono" style="width: 90px">
+                </div>
+                <div class="row" style=" padding: 5%;    padding-top: 40px;">
+                    <span class="font-large">Comunicación</span>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+    <br />
+    <h3 style="text-align: center;margin-top: 0px;font-weight: bold;" id="titleContainer">Acciones</h3>
+    <br />
+    <div class="row" style="text-align-last: center;" id="ContainerDetails">
+        <div class="col-md-4">
+            <div class="box box-danger" style="border-top-width: 6px;" >
+                <div class="box-header with-border">
+                    <h3 class="box-title">Prioridad Alta</h3>
+                </div>
+                <div class="box-body no-padding">
+                    <div class="col-md-12 col-sm-6 col-xs-12" style="text-align-last: left;">
+                        <ul class="products-list product-list-in-box">
+                            <li class="item">
+                                <div class="product-info">
+                                    <a href="javascript:void(0)" class="product-title">
+                                        Secretaria de Estrategia y Asuntos Militares
+                                    </a>
+                                    <span class="product-description">
+                                        Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto.
+                                    </span>
+                                </div>
+                            </li>
+
+                            <li class="item">
+                                <div class="product-info">
+                                    <a href="javascript:void(0)" class="product-title">
+                                        Subsecretaría de Planeamiento Estratégico y Política Militar
+                                    </a>
+                                    <span class="product-description">
+                                        Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto.
+                                    </span>
+                                </div>
+                            </li>
+
+                            <li class="item">
+                                <div class="product-info">
+                                    <a href="javascript:void(0)" class="product-title">
+                                        Secretaría de Asuntos Internacionales de Defensa
+                                    </a>
+                                    <span class="product-description">
+                                        Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto.
+                                    </span>
+                                </div>
+                            </li>
+
+                            <li class="item">
+                                <div class="product-info">
+                                    <a href="javascript:void(0)" class="product-title">
+                                        Secretaría de Investigación Política Industrial y Producción para la Defensa
+                                    </a>
+                                    <span class="product-description">
+                                        Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto.
+                                    </span>
+                                </div>
+                            </li>
+
+                            <li class="item">
+                                <div class="product-info">
+                                    <a href="javascript:void(0)" class="product-title">
+                                        Subsecretaría de Planeamiento Operativo y Coordinación Ejecutiva en Emergencia
+                                    </a>
+                                    <span class="product-description">
+                                        Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto.
+                                    </span>
+                                </div>
+                            </li>
+
+                            <li class="item">
+                                <div class="product-info">
+                                    <a href="javascript:void(0)" class="product-title">
+                                        Subsecretaría de Planeamiento Operativo y Servicio Logístico de la Defensa
+                                    </a>
+                                    <span class="product-description">
+                                        Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto.
+                                    </span>
+                                </div>
+                            </li>
+
+                            <li class="item">
+                                <div class="product-info">
+                                    <a href="javascript:void(0)" class="product-title">
+                                        Subsecretaría de Gestión Administrativa
+                                    </a>
+                                    <span class="product-description">
+                                        Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto.
+                                    </span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="box box-warning" style="border-top-width: 6px;">
+            <div class="box-header with-border">
+                <h3 class="box-title">Prioridad Media</h3>
+            </div>
+            <div class="box-body no-padding">
+                <div class="col-md-12 col-sm-6 col-xs-12" style="text-align-last: left;">
+                        <ul class="products-list product-list-in-box">
+                            <li class="item">
+                                <div class="product-info">
+                                    <a href="javascript:void(0)" class="product-title">
+                                        Secretaria de Estrategia y Asuntos Militares
+                                    </a>
+                                    <span class="product-description">
+                                        Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto.
+                                    </span>
+                                </div>
+                            </li>
+
+                            <li class="item">
+                                <div class="product-info">
+                                    <a href="javascript:void(0)" class="product-title">
+                                        Subsecretaría de Planeamiento Estratégico y Política Militar
+                                    </a>
+                                    <span class="product-description">
+                                        Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto.
+                                    </span>
+                                </div>
+                            </li>
+
+                            <li class="item">
+                                <div class="product-info">
+                                    <a href="javascript:void(0)" class="product-title">
+                                        Secretaría de Asuntos Internacionales de Defensa
+                                    </a>
+                                    <span class="product-description">
+                                        Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto.
+                                    </span>
+                                </div>
+                            </li>
+
+                            <li class="item">
+                                <div class="product-info">
+                                    <a href="javascript:void(0)" class="product-title">
+                                        Secretaría de Investigación Política Industrial y Producción para la Defensa
+                                    </a>
+                                    <span class="product-description">
+                                        Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto.
+                                    </span>
+                                </div>
+                            </li>
+
+                            <li class="item">
+                                <div class="product-info">
+                                    <a href="javascript:void(0)" class="product-title">
+                                        Subsecretaría de Planeamiento Operativo y Coordinación Ejecutiva en Emergencia
+                                    </a>
+                                    <span class="product-description">
+                                        Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto.
+                                    </span>
+                                </div>
+                            </li>
+
+                            <li class="item">
+                                <div class="product-info">
+                                    <a href="javascript:void(0)" class="product-title">
+                                        Subsecretaría de Planeamiento Operativo y Servicio Logístico de la Defensa
+                                    </a>
+                                    <span class="product-description">
+                                        Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto.
+                                    </span>
+                                </div>
+                            </li>
+
+                            <li class="item">
+                                <div class="product-info">
+                                    <a href="javascript:void(0)" class="product-title">
+                                        Subsecretaría de Gestión Administrativa
+                                    </a>
+                                    <span class="product-description">
+                                        Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto.
+                                    </span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+            </div>
+        </div>
+        </div>
+
+        <div class="col-md-4">
+                <div class="box box-success" style="border-top-width: 6px;">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Prioridad Baja</h3>
+                    </div>
+                    <div class="box-body no-padding">
+                        <div class="col-md-12 col-sm-6 col-xs-12" style="text-align-last: left;">
+                        <ul class="products-list product-list-in-box">
+                            <li class="item">
+                                <div class="product-info">
+                                    <a href="javascript:void(0)" class="product-title">
+                                        Secretaria de Estrategia y Asuntos Militares
+                                    </a>
+                                    <span class="product-description">
+                                        Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto.
+                                    </span>
+                                </div>
+                            </li>
+
+                            <li class="item">
+                                <div class="product-info">
+                                    <a href="javascript:void(0)" class="product-title">
+                                        Subsecretaría de Planeamiento Estratégico y Política Militar
+                                    </a>
+                                    <span class="product-description">
+                                        Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto.
+                                    </span>
+                                </div>
+                            </li>
+
+                            <li class="item">
+                                <div class="product-info">
+                                    <a href="javascript:void(0)" class="product-title">
+                                        Secretaría de Asuntos Internacionales de Defensa
+                                    </a>
+                                    <span class="product-description">
+                                        Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto.
+                                    </span>
+                                </div>
+                            </li>
+
+                            <li class="item">
+                                <div class="product-info">
+                                    <a href="javascript:void(0)" class="product-title">
+                                        Secretaría de Investigación Política Industrial y Producción para la Defensa
+                                    </a>
+                                    <span class="product-description">
+                                        Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto.
+                                    </span>
+                                </div>
+                            </li>
+
+                            <li class="item">
+                                <div class="product-info">
+                                    <a href="javascript:void(0)" class="product-title">
+                                        Subsecretaría de Planeamiento Operativo y Coordinación Ejecutiva en Emergencia
+                                    </a>
+                                    <span class="product-description">
+                                        Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto.
+                                    </span>
+                                </div>
+                            </li>
+
+                            <li class="item">
+                                <div class="product-info">
+                                    <a href="javascript:void(0)" class="product-title">
+                                        Subsecretaría de Planeamiento Operativo y Servicio Logístico de la Defensa
+                                    </a>
+                                    <span class="product-description">
+                                        Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto.
+                                    </span>
+                                </div>
+                            </li>
+
+                            <li class="item">
+                                <div class="product-info">
+                                    <a href="javascript:void(0)" class="product-title">
+                                        Subsecretaría de Gestión Administrativa
+                                    </a>
+                                    <span class="product-description">
+                                        Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto.
+                                    </span>
+                                </div>
+                            </li>
+                        </ul>
+                     </div>
+                    </div>
+                </div>
+        </div>
+        </div>
+    </div>
+    <br />
+    <div class="" id="ContainerGrafico1"></div>
+    <div class="" id="ContainerGrafico2"></div> 
+
+    <script>
+        $(document).ready(function () {
+            $(".info-box").mouseenter(function () {
+                $(this).css("cursor", "pointer"); 
+            });
+
+            $(".info-box").click(function () {  
+                let id = this.id;
+                let title = $(this).data("title");
+                    console.log(title)
+                $("#ContainerDetails").empty();
+                changeTitle(title);
+                    if (id==="1"){
+                        $.get("/Indicadores/Home/GraficoTorta/" + id, function (data) {
+                            $("#ContainerGrafico1").html(data);
+                        });
+
+                        $.get("/Indicadores/Home/GraficoBarra/" + id, function (data) {
+                            $("#ContainerGrafico2").html(data);
+                        });
+                        var div2Height = $('#div1').height();
+                        $('#div2').css('height', div2Height + 'px');
+                    }else{
+                        $("#ContainerGrafico2").empty();
+                        $("#ContainerGrafico1").empty();
+                    }
+            });
+        });
+
+
+
+
+
+
+
+        const changeTitle = (title) => {
+            $("#titleContainer").empty();
+            $("#titleContainer").append(title);
+        }
+
+
+        //function zoomIn(element) {
+        //    element.style.transform = "scale(2)"; // Escala el div al doble de su tamaño original
+
+        //    // Calcula el desplazamiento para centrar el div
+        //    const rect = element.getBoundingClientRect();
+        //    const offsetX = window.innerWidth / 2 - (rect.left + rect.width / 2);
+        //    const offsetY = window.innerHeight / 2 - (rect.top + rect.height / 2);
+
+        //    // Aplica el desplazamiento
+        //    element.style.transformOrigin = "center center";
+        //    element.style.transition = "transform 0.3s ease";
+        //    element.style.transform += ` translate(${offsetX}px, ${offsetY}px)`;
+        //}
+
+
+    //function resaltarDiv(elemento) {
+    //    elemento.classList.toggle("div-resaltado");
+    //}
+
+
+
+    </script>
+
+    <style>
+   /* .div-resaltado {
+        background-color: yellow;
+    }*/
+    </style>
+    

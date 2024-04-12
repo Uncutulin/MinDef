@@ -1,0 +1,134 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+</head>
+<body>
+    <div class="col-md-8 d-flex align-items-center">
+        <div class="box box-info" id="div2">
+            <div class="box-body">
+                <div class="chart">
+                    <canvas id="barChart" style="height: 230px; width: 787px;" height="230" width="787"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            var ctx2 = document.getElementById('barChart').getContext('2d');
+            var barOptions2 = {
+                //Boolean - Whether the scale should start at zero, or an order of magnitude down from the lowest value
+                scaleBeginAtZero: true,
+                //Boolean - Whether grid lines are shown across the chart
+                scaleShowGridLines: true,
+                //String - Colour of the grid lines
+                scaleGridLineColor: 'rgba(0,0,0,.05)',
+                //Number - Width of the grid lines
+                scaleGridLineWidth: 1,
+                //Boolean - Whether to show horizontal lines (except X axis)
+                scaleShowHorizontalLines: true,
+                //Boolean - Whether to show vertical lines (except Y axis)
+                scaleShowVerticalLines: true,
+                //Boolean - If there is a stroke on each bar
+                barShowStroke: true,
+                //Number - Pixel width of the bar stroke
+                barStrokeWidth: 2,
+                //Number - Spacing between each of the X value sets
+                barValueSpacing: 5,
+                //Number - Spacing between data sets within X values
+                barDatasetSpacing: 1,
+                //Boolean - whether to make the chart responsive
+                responsive: true,
+                // Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
+                maintainAspectRatio: true,
+                //String - A legend template
+                legendTemplate: '<ul class="<%=name.toLowerCase()%>-legend"><% for (var i=0; i<segments.length; i++){%><li><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>',
+                plugins: {
+                    datalabels: {
+                        color: '#fff',
+                        font: {
+                            weight: 'bold',
+                            size: 18
+                        },
+                        anchor: 'end',
+                        align: 'end'
+                    }
+                },
+                legendCallback: function (chart) {
+                    var text = [];
+                    text.push('<ul class="' + chart.id + '-legend">');
+                    for (var i = 0; i < chart.data.datasets.length; i++) {
+                        text.push('<li>');
+                        text.push('<span>$ Millones</span>');
+                        text.push('</li>');
+                    }
+                    text.push('</ul>');
+                    return text.join('');
+                }
+            };
+
+            var myChart2 = new Chart("barChart", {
+                type: 'bar',
+                data: {
+                    labels: ['Vehículos ', "Comida", "Teléfono", "Pasajes", "Estructura", "Recusos humanos"],
+                    datasets: [{
+                        label: '$ Millones',
+                        data: [12, 19, 8, 19, 35, 29],
+                        backgroundColor: [
+                            'rgba(36, 113, 163, 1)',
+                            'rgba(20, 143, 119, 1)',
+                            'rgba(212, 172, 13, 1)',
+                            'rgba(176, 58, 46, 1)',
+                            'rgba(136, 78, 160, 1)',
+                            'rgba(138, 196, 255, 1)',
+                        ],
+                        borderColor: [
+                            'rgba(36, 113, 163, 1)',
+                            'rgba(20, 143, 119, 1)',
+                            'rgba(212, 172, 13, 1)',
+                            'rgba(176, 58, 46, 1)',
+                            'rgba(136, 78, 160, 1)',
+                            'rgba(138, 196, 255, 1)',
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                                stepSize: 1,
+                                min: 0
+                            }
+                        }]
+                    },
+                    plugins: {
+                        datalabels: {
+                            anchor: 'end',
+                            align: 'top',
+                            formatter: function (value, context) {
+                                return value;
+                            }
+                        }
+                    },
+                    legend: {
+                        labels: {
+                            boxWidth: 0 // Establecer el ancho del cuadro de la leyenda a cero
+                        },
+                        display: true,
+                        backgroundColor: 'rgba(0,0,0,0)', // Establecer el color de fondo de la leyenda como transparente
+                    }
+                }
+            });
+
+            document.getElementById('legend').innerHTML = myChart2.generateLegend();
+        });
+    </script>
+</body>
+
+</html >
+

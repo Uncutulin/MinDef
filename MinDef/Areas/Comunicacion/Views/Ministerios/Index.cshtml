@@ -1,0 +1,69 @@
+﻿@model DAL.DTOs.Comunicacion.MinisteriosDTO
+@{
+    ViewData["Title"] = "Ministerios";
+    ViewData["BackArrow"] = "/Home/Index";
+}
+
+<box color="Info">
+    <box-header title="Listado">
+        <div class="input-group input-group-sm pull-right" style="max-width: 300px;">
+            <a title="Crear Nuevo Ministerio" onclick="CrearMinisterio()" class="btn btn-info btn-sm">
+                <i class="fa fa-plus"><span class="hidden-xs"> Nuevo Ministerio</span></i>
+            </a>
+        </div>
+    </box-header>
+    <box-body>
+        <table class="table table-hover table-bordered table-responsive" id="MinisteriosDataTable" width="100%">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nombre</th>
+                    @* <th>Activo</th> *@
+                   @*  <th>Logo</th> *@
+                </tr>
+            </thead>
+        </table>
+    </box-body>
+</box>
+
+
+
+<modal title="Nuevo Ministerio" callback-modal="true" function="CrearMinisterio" load-url="/Comunicacion/Ministerios/_Create/" size="Medium"></modal>
+<modal title="Editar Ministerio" callback-modal="true" function="actualizarDatos" load-url="/Comunicacion/Ministerios/_Update/" size="Medium"></modal>
+
+
+<script type="text/javascript">
+
+    $(function () {
+        var versionTable = $('#MinisteriosDataTable').DataTable({
+            serverSide: true,
+            processing: true,            
+            ajax: {
+                url: '@Url.Action("_MinisteriosDataTable")',
+                type: "POST",
+            },
+            order: [[0, "desc"]],
+            columns: [                
+                { data: "Nombre", title: "Nombre" }, 
+                // {
+                //     data: "Activo",
+                //     title: "Activo",
+                //     render: function (data, type, row) {
+                //         return data ? 'Vigente' : 'Sin vigencia';
+                //     }
+                // },
+                // { data: "Logo", title: "Logo" },
+                {
+                    title: "Acciones",
+                    sortable: false,
+                    render: function (data, type, row) {
+                        var action = '';
+                        action += `<a onclick="actualizarDatos('${row['Id']}')" title="Modificar datos del Ministerio" class="btn btn-info btn-xs"><i class="fa fa-edit"></i></a>`;
+                        return action;
+                    }
+                },
+            ],
+        });
+    });
+
+</script>

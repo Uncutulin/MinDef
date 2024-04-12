@@ -1,0 +1,63 @@
+﻿@model DAL.DTOs.Comunicacion.UbicacionesDTO
+@{
+    ViewData["Title"] = "Ubicaciones";
+    ViewData["BackArrow"] = "/Home/Index";
+}
+
+<box color="Info">
+    <box-header title="Listado">
+        <div class="input-group input-group-sm pull-right" style="max-width: 300px;">
+            <a title="Crear Nueva Ubicación" onclick="CrearUbicacion()" class="btn btn-info btn-sm">
+                <i class="fa fa-plus"><span class="hidden-xs"> Nueva Ubicación</span></i>
+            </a>
+        </div>
+    </box-header>
+    <box-body>
+        <table class="table table-hover table-bordered table-responsive" id="UbicacionesDataTable" width="100%">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nombre</th>
+                    <th>Latitud</th>
+                    <th>Longitud</th>
+                </tr>
+            </thead>
+        </table>
+    </box-body>
+</box>
+
+
+
+<modal title="Nueva Ubicación" callback-modal="true" function="CrearUbicacion" load-url="/Comunicacion/Ubicaciones/_Create/" size="Medium"></modal>
+<modal title="Editar Ubicación" callback-modal="true" function="actualizarDatos" load-url="/Comunicacion/Ubicaciones/_Update/" size="Medium"></modal>
+
+
+<script type="text/javascript">
+
+    $(function () {
+        var versionTable = $('#UbicacionesDataTable').DataTable({
+            serverSide: true,
+            processing: true,            
+            ajax: {
+                url: '@Url.Action("_UbicacionesDataTable")',
+                type: "POST",
+            },
+            order: [[0, "desc"]],
+            columns: [                
+                { data: "Nombre", title: "Nombre" },
+                { data: "Latitud", title: "Latitud" },
+                { data: "Longitud", title: "Longitud" },
+                {
+                    title: "Acciones",
+                    sortable: false,
+                    render: function (data, type, row) {
+                        var action = '';
+                        action += `<a onclick="actualizarDatos('${row['Id']}')" title="Modificar datos ubicacion" class="btn btn-info btn-xs"><i class="fa fa-edit"></i></a>`;
+                        return action;
+                    }
+                },
+            ],
+        });
+    });
+
+</script>

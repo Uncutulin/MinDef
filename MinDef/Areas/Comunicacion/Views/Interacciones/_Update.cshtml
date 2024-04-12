@@ -1,0 +1,47 @@
+﻿@using Commons.HtmlHelpers
+@using DAL.DTOs.Comunicacion
+@model DAL.DTOs.Comunicacion.InteraccionesDTO
+
+<form asp-action="_Update">
+
+    @using (Html.BoxBody())
+    {
+        <input type="hidden" asp-for="Id" />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label class="control-label">Red Social</label>
+            <select asp-items="@ViewBag.Redes" asp-for="Red.Id" class="form-control" searchable="true"></select>
+            <span asp-validation-for="Red.Id" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label class="control-label">Tipo de interaccion</label>
+            <select asp-items="@ViewBag.TipoMediciones" asp-for="TipoMedicion.Id" class="form-control" searchable="true"></select>
+            <span asp-validation-for="TipoMedicion.Id" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label class="control-label">Cantidad</label>
+            <input asp-for="Numero" class="form-control" type="number" />
+            <span asp-validation-for="Numero" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label class="control-label">Ubicacion</label>
+            <select asp-items="@ViewBag.Ubicaciones" asp-for="Ubicacion.Id" class="form-control" searchable="true"></select>
+            <span asp-validation-for="Ubicacion.Id" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label class="control-label">Fecha</label>
+            <input asp-for="Fecha" class="form-control" type="date" />
+            <span asp-validation-for="Fecha" class="text-danger"></span>
+        </div>
+    }
+    @using (Html.BoxFooter())
+    {
+        <div class="col-md-12" style="display: flex; justify-content: right;align-items: center;">
+            <div class="form-group ">
+                <a class="btn btn-default" data-dismiss="modal">Cancelar</a>
+                <input type="submit" value="Guardar" class="btn btn-primary pull-right" />
+            </div>
+        </div>
+    }
+
+</form>

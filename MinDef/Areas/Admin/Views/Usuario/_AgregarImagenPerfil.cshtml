@@ -1,0 +1,31 @@
+﻿@using Commons.HtmlHelpers
+<form id="formularioArchivo" asp-action="_AgregarImagenPerfil" method="post" enctype="multipart/form-data">
+
+    @using (Html.BoxBody())
+    {
+        <input type="hidden" name="userId" value="@ViewBag.userId" />
+        <div class="form-group">
+            <label class="control-label">Seleccione una imagen:</label>
+            <input id="archivo" type="file" name="file" />
+            <span id="alerta" class="text-danger"></span>
+        </div>
+    }
+    @using (Html.BoxFooter())
+    {
+        <a class="btn btn-default" asp-action="Index">Cancelar</a>
+        <input id="CargarArchivo" type="submit" value="Guardar" class="btn btn-primary pull-right" />
+    }
+
+</form>
+<script>
+    $("#CargarArchivo").on("click", function () {
+        $("#alerta")[0].innerText = "";
+        event.preventDefault();
+        let ext = $("#archivo").val().slice(($("#archivo").val().lastIndexOf(".") - 1 >>> 0) + 2);
+        if (ext == "jpg") {
+            $("#formularioArchivo").submit();
+        } else {
+            $("#alerta")[0].innerText = "Debe subir un archivo con la extensión JPG.";
+        }
+    });
+</script>

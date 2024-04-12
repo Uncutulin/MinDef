@@ -1,0 +1,180 @@
+﻿@using DAL.DTOs.Admin;
+@using DAL.Models.Comunes;
+@model List<Operaciones>
+@{
+    Operaciones operaciones = ViewBag.listaCardDTO;
+    ViewData["Title"] = "Comando Operacional";
+    List<Medios> ListMedios = operaciones.Medios.OrderBy(x => x.TipoMedios.Codigo).ToList();
+    List<string> tipoMedios = ListMedios.Select(x => x.TipoMedios.Nombre).Distinct().ToList();
+    List<string> tipoFuerzas = ListMedios.Select(x => x.Fuerza.Codigo).Distinct().ToList();
+    var iconosTipoMedios = ListMedios.Select(x => new { nombre = x.TipoMedios.Nombre, icono = x.TipoMedios.Logo }).Distinct().ToList();
+
+    var personal = operaciones.Personal;
+    List<string> personalFuerza = personal.Select(x => x.Fuerza.Codigo).Distinct().ToList();
+}
+<style>
+    .font-large {
+        font-size: x-large;
+    }
+
+    .product-info {
+        margin-left: 5px !important;
+    }
+
+    .zoomable {
+        width: 200px;
+        height: 200px;
+        background-color: lightblue;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+    }
+
+    .contenedor-flex {
+        flex-wrap: wrap; /* Permitir que los elementos se ajusten en varias líneas si es necesario */
+    }
+
+    .ImagenTitulo {
+        flex-wrap: wrap; /* Permitir que los elementos se ajusten en varias líneas si es necesario */
+    }
+
+    .info-box {
+        flex-grow: 1; /* Permitir que todos los info-boxes crezcan para ajustarse al tamaño del más grande */
+        margin: 10px; /* Margen entre los info-boxes */
+    }
+
+    .marcado {
+        border: 3px solid #3c8dbc;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    }
+
+    .centrarDiv {
+        display: flex;
+        justify-content: center; /* Centra horizontalmente */
+        align-items: center; /* Centra verticalmente */
+        /* height: 100vh;*/
+    }
+
+</style>
+<script src="~/js/jquery.knob.js"></script>
+<div class="content" style="padding-left: 0px;">
+    <div class="row">
+        <div class="contenedor-flex">
+            <h2 style="text-align: center;">@operaciones.Nombre</h2>
+            <br />
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box miDiv" id="1" data-title="" style="text-align: center;">
+                    <div class="imagen-titulo">
+                        <div class="row" style="padding-top: 5%; height: 90px;">
+                            <img src="~/images/icon/fe.svg" alt="Descripción del icono" style="max-width: 100%; max-height: 100%;">
+                        </div>
+                        <div class="row row-titulo" style=" padding: 5%; padding-bottom: 0;display: flex;align-items: center;justify-content: center;">
+                            <span class="font-large">Efectivos</span>
+                        </div>
+                        <div class="row row-titulo" style=" padding: 5%; padding-bottom: 0;display: flex;align-items: center;justify-content: center;">
+                            <span class="font-large" style="font-size: xx-large;">@operaciones.Personal.Sum(x=>x.Cantidad)</span>
+                        </div>
+                    </div>
+                    <br>
+                    <hr class="hr-style" style="margin: 0px;padding-top:2%">
+                        <div class="row row-detalle" style="font-size: x-large;">
+                            @foreach (var itemPersonalFuerza in personalFuerza)
+                            {
+                                var personalFuerzaActual = personal.Where(x => x.Fuerza.Codigo == itemPersonalFuerza).ToList();
+                                int cantidad = 12 / personal.Count();                            
+                                var ImagenFuerza = $"/images/{personalFuerzaActual.First().Fuerza.Logo}";
+                               
+                                <div class="col-xs-@cantidad">
+                                    <div class="col-xs-12">
+                                        <img src="@ImagenFuerza" alt="Descripción del icono" style="max-width: 50px; max-height: 50px;">
+                                    </div>
+                                    <div class="col-xs-12">
+                                        <label>@itemPersonalFuerza</label>
+                                    </div>
+                                    <div class="col-xs-12">
+                                        <label style="font-weight: normal;">@personalFuerzaActual.Select(x=>x.Cantidad).Sum()</label>
+                                    </div>
+                                </div>
+                            }
+                        </div>                      
+                    </div>
+                </div>
+            </div>
+        
+            @foreach (var item in tipoMedios)
+            {
+                string icono = iconosTipoMedios.Where(x => x.nombre == item).Select(x => x.icono).FirstOrDefault();
+                <div class="contenedor-flex">
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="info-box info-box-detalle info-box-click miDiv" id="@item" data-title="item" style="text-align: center;">
+                            <div class="imagen-titulo">
+                                <div class="row" style="padding-top: 5%; height: 90px;">
+                                    <img src="~/images/icon/@icono" alt="Descripción del icono" style="max-width: 100%; max-height: 100%;">
+                                </div>
+                                <div class="row row-titulo" style=" padding: 5%; padding-bottom: 0;display: flex;align-items: center;justify-content: center;">
+                                    <span class="font-large">Medios @item</span>
+                                </div>
+                                    <div class="row row-titulo" style=" padding: 5%; padding-bottom: 0;display: flex;align-items: center;justify-content: center;">
+                                    <span class="font-large" style=" font-size: xx-large;">@ListMedios.Where(x => x.TipoMedios.Nombre == item).Sum(x=>x.Cantidad)</span>
+                                </div>
+                            </div>
+                            <br>
+                            <hr class="hr-style" style="margin: 0px;padding-top:2%">
+                            <div class="row row-detalle" style="font-size: x-large;">
+                                @foreach (var itemFuerza in tipoFuerzas)
+                                {
+                                    var mediosFuerzaActual = ListMedios.Where(x => x.TipoMedios.Nombre == item && x.Fuerza.Codigo == itemFuerza).ToList();
+                                    int cantidad = 12 / tipoFuerzas.Count();
+                                    var ImagenFuerza = $"/images/{itemFuerza}.png";
+
+                                    <div class="col-xs-@cantidad">
+                                        <div class="col-xs-12">
+                                            <img src="@ImagenFuerza" alt="Descripción del icono" style="max-width: 50px; max-height: 50px;">
+                                        </div>
+                                        <div class="col-xs-12">
+                                            <label>@itemFuerza</label>
+                                        </div>
+                                        <div class="col-xs-12">
+                                        <label style="font-weight: normal;">@mediosFuerzaActual.Select(x=>x.Cantidad).Sum()</label>
+                                        </div>
+                                    </div>                                
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        </div>
+        <div class="row" style="padding-left: 5px;">
+            <div class="contenedor-flex">
+                <div class="col-md-12 col-sm-6 col-xs-12">                  
+                    <div id="OperacionDetallesDataTable"></div>      
+                </div>
+            </div>
+        </div>       
+<br />
+
+<script>
+    $(".info-box-click").mouseenter(function () {
+        $(this).css("cursor", "pointer");
+    });
+
+    $('.info-box-detalle').click(function () {
+        if ($(this).hasClass('marcado')) {
+            $('.info-box-detalle').removeClass('marcado');
+            $("#OperacionDetallesDataTable").empty()
+        } else {
+            $('.info-box-detalle').removeClass('marcado');
+            $(this).addClass('marcado');
+            let id = this.id;
+            let title = $(this).data("title");
+            var url = "/COPERAL/Home/_OperacionDetallesIndex?Operacion=" + @Html.Raw(operaciones.Id) + " & TipoMedios=" + id
+            $("#OperacionDetallesDataTable").load(url.replace(/\s/g, ''));
+        }
+    });
+
+</script>
+
+
+

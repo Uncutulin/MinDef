@@ -1,0 +1,238 @@
+﻿@model List<DAL.DTOs.Admin.OperacionesBaseDTO>;
+
+@{
+
+    ViewData["Title"] = "EMCO";
+    //Operaciones operaciones = ViewBag.listaCardDTO;
+    ////ViewData["Title"] = "Comando Operacional";
+    //List<Medios> ListMedios = operaciones.Medios.OrderBy(x => x.TipoMedios.Codigo).ToList();
+    //List<string> tipoMedios = ListMedios.Select(x => x.TipoMedios.Nombre).Distinct().ToList();
+    //List<string> tipoFuerzas = ListMedios.Select(x => x.Fuerza.Codigo).Distinct().ToList();
+    //var iconosTipoMedios = ListMedios.Select(x => new { nombre = x.TipoMedios.Nombre, icono = x.TipoMedios.Logo }).Distinct().ToList();
+
+    //var personal = operaciones.Personal;
+    //List<string> personalFuerza = personal.Select(x => x.Fuerza.Codigo).Distinct().ToList();
+
+}
+<style>
+    #map {
+        height: 100vh;
+    }
+    .hoverable-div {
+         /* Color de fondo inicial */
+        transition: color 0.3s ease; /* Transición suave para el color de fondo */
+    }
+
+    .hoverable-div:hover {
+        background-color: #f0f0f0; /* Color de fondo al pasar el mouse */
+    }
+
+    .hoverable-header {
+        color: #333; /* Color de texto inicial */
+        transition: color 0.3s ease; /* Transición suave para el color de texto */
+        font-size : 22px
+    }
+
+    .hoverable-header:hover {
+        color: #CBCBCB; /* Color de texto al pasar el mouse */
+        cursor: pointer; /* Cambia el cursor a una mano para indicar que es interactivo */
+    }
+
+
+    .box-header {
+        display: flex;
+        justify-content: center; /* Centra los elementos hijos horizontalmente */
+        flex-direction: column; /* Alinea los elementos hijos verticalmente */
+        align-items: center;
+    }
+
+</style>
+
+<div class="content" style="padding-top:0px">
+    <div class="row">
+        <div class="col-md-4"></div>
+        <!--Columna vacía para centrar el contenido -->
+        <div class="col-md-12 d-flex flex-column justify-content-center align-items-center" style="min-height: 100px;">
+            <!--Contenedor Flex que centra vertical y horizontalmente su contenido -->
+            <img style="width: 10%; border-radius: 50%;border:none" class="profile-user-img img-responsive img-circle" src="~/images/FuerzaOperativa/EMCO/EMCO.png" alt="imagen del proyecto" class="mb-2">
+            <!-- Ajusta el tamaño de la imagen y aplica un margen inferior -->
+            <h3 class="text-center "><b>Estado Mayor Conjunto de las Fuerzas Armadas</b></h3>
+            <h4 class="text-center " style="font-size: 22px;">Operaciones en Desarrollo</h4>
+            <!--Título centrado gracias a las propiedades del contenedor padre -->
+        </div>
+        <div class="col-md-4"></div>
+        <!-- Columna vacía para centrar el contenido -->
+    </div>   
+    <div class="row">
+        <div class="col-md-4">
+
+            @foreach (var op in Model)
+            {
+                <div class="box" style="border: 4px solid @op.Color;">
+                    <div class="box-header">
+                        @if (op.Nombre.Equals("Apoyo Logístico a Ministerio de Seguridad"))
+                        {
+                            <a href="/COPERAL" class="text-center hoverable-header">@op.Nombre</a><hr />
+                        }
+                        else
+                        {   
+                            <a href="#" class="text-center hoverable-header">@op.Nombre</a><hr />
+                        }
+                    </div>
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="info-box miDiv" id="1" data-title="" style="text-align: center;box-shadow: 0 0px 0px rgba(0,0,0,0.1);">
+                                    <div class="imagen-titulo">
+                                        <div class="row" style="padding-top: 5%; height: 37px;">
+                                            <img src="~/images/icon/fe.svg" alt="Descripción del icono" style="max-width: 50%; ">
+                                        </div>
+                                        <div class="row row-titulo" style=" padding: 5%; padding-bottom: 0;display: flex;align-items: center;justify-content: center;">
+                                            <span class="font-large tamanio-card-titulo" style="align-content: center;padding-top: 30%;">Efectivos</span>
+                                        </div>
+                                        <div class="row row-titulo" style=" padding: 5%; padding-bottom: 0;display: flex;align-items: center;justify-content: center;">
+                                            <span class="font-large" style="font-size: xx-large;">@op.Personal.Sum(x => x.Cantidad)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @foreach (var item in op.tipoMedios)
+                            {
+                                @*var  = personal.Where(x => x.Operacion.Personal == item).ToList();
+                                    int cantidad = 12 / personal.Count();
+                                    var ImagenFuerza = $"/images/{personalFuerza.First().Fuerza.Logo}";*@
+                                string icono = op.IconosTipoMedios.Where(x => x.Nombre == item).Select(x => x.Icono).FirstOrDefault();
+
+                                <div class="col-md-3">
+                                    <div class="info-box miDiv" id="1" data-title="" style="text-align: center;box-shadow: 0 0px 0px rgba(0,0,0,0.1);">
+                                        <div class="imagen-titulo">
+                                            <div class="row" style="padding-top: 5%; height: 37px;">
+                                                <img src="~/images/icon/@icono" alt="Descripción del icono" style="max-width: 50%">
+                                            </div>
+                                            <div class="row row-titulo " style=" padding: 5%; padding-bottom: 0;display: flex;align-items: center;justify-content: center;">
+                                                @if (item=="Radares")
+                                                {
+                                                    <span class="font-large tamanio-card-titulo" style="align-content: center;padding-top: 30%;">@item</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="font-large tamanio-card-titulo" style="align-content: center;padding-top: 30%;">Medios @item</span>
+                                                }
+                                            </div>
+                                            <div class="row row-titulo" style=" padding: 5%; padding-bottom: 0;display: flex;align-items: center;justify-content: center;">
+                                                <span class="font-large" style="font-size: xx-large;">@op.Medios.Where(x => x.TipoMedios.Nombre == item).Sum(x => x.Cantidad)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="col-md-8">
+            <div id="map"></div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+  
+    $(document).ready(function(){
+        IniciarMapa();
+
+
+        setMaxHeight('tamanio-card-titulo');
+
+    });
+
+
+    const setMaxHeight = (className) => {
+        let maxHeight = 0;
+        $('.' + className).each(function () {
+            const height = $(this).outerHeight();
+            if (height > maxHeight) {
+                maxHeight = height;
+            }
+        });
+        console.log(maxHeight)
+        $("."+ className).css('height', maxHeight + 'px');
+    }
+
+    function IniciarMapa() {
+        const map = L.map("map").setView([-50.4161, -63.6167], 3)
+            L.tileLayer(
+                    "https://wms.ign.gob.ar/geoserver/gwc/service/tms/1.0.0/capabaseargenmap@EPSG%3A3857@png/{z}/{x}/{-y}.png", {
+                    attribution: '<a href="http://leafletjs.com" title="A JS library for interactive maps"></a> <a href="http://www.ign.gob.ar/AreaServicios/Argenmap/IntroduccionV2" target="_blank">Instituto Geográfico Nacional</a> + <a href="http://www.osm.org/copyright" target="_blank">OpenStreetMap</a>',
+                    minZoom: 4,
+                    maxZoom: 18,
+                }
+            ).addTo(map);
+        //Agregar Marcadores
+        cargarMarcadores(map);      
+    }
+
+    function cargarMarcadores(map) {
+
+        var iconoEspecifico = L.icon({
+            iconUrl: '/images/icon/radar-rojo.svg',
+            conSize: [40, 40],
+            iconAnchor: [25, 25],
+            popupAnchor: [0, -20]
+        });
+
+        var ubicacionesLatinas = [
+            {latitud: "-24.7", longitud: "-60.6", descripcion: 'Las Lomitas, Formosa'},
+            {latitud: "-23.9", longitud: "-61.85", descripcion: 'Ing. Juarez, Formosa'},
+            {latitud: "-31.85", longitud: "-59.01667", descripcion: 'Villaguay, Entre Rios'},
+            {latitud: "-26.6217", longitud: "-54.1097", descripcion: 'San Pedro, Misiones'},
+            {latitud: "-29", longitud: "-57.83333", descripcion: 'Mercedes, Corrientes' },
+            {latitud: "-29.23333", longitud: "-61.76667", descripcion: 'Tostado, Santa Fe' },
+            {latitud: "-22.51637", longitud: "-63.80131", descripcion: 'Tartagal, Salta' },
+            {latitud: "-53.78333", longitud: "-67.7", descripcion: 'Rio Grande, Tierra del Fuego' },
+            {latitud: "-25.71667", longitud: "-59.1", descripcion: 'Pirané, Formosa' },
+            {latitud: "-34.66627", longitud: "-58.72927", descripcion: 'Merlo, Buenos Aires' }
+        ];
+
+
+        ubicacionesLatinas.forEach(function (ubicacion) {
+            var marcador = L.marker([ubicacion.latitud, ubicacion.longitud], { icon: iconoEspecifico }).addTo(map)
+                .bindPopup(ubicacion.descripcion);
+        });
+
+        fetch('/EMCO/Home/ListadoOperaciones') // Cambia esto por la URL real de tu endpoint
+            .then(response => response.json())
+                .then(data => {
+                    data.forEach(item => {
+                        var lat = parseFloat(item.Latitud);
+                        var long = parseFloat(item.Longitud);
+                        var iconoPersonalizado = crearIcono(item.Color);                        
+                        if (!isNaN(lat) && !isNaN(long)) 
+                        {
+                            var marker = L.marker([lat, long], { icon: iconoPersonalizado }).addTo(map)
+                            .bindPopup('<span style="font-size: 11px;">' + item.Descripcion + '</span>');                    
+                        }                        
+
+                    });
+                })
+    }
+   
+    
+    function crearIcono(color) {
+        var icono = new L.Icon({
+            iconUrl: `data:image/svg+xml;base64,${btoa(`
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    <path fill="${color}" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+                    <circle cx="12" cy="9" r="2.5" fill="#FFFFFF"/>
+                </svg>
+            `)}`,
+            iconSize: [40, 40], // Tamaño del ícono
+            iconAnchor: [12, 24], // Punto del ícono que corresponderá a la ubicación del marcador
+            popupAnchor: [0, -24] // Punto desde donde se abrirá el popup en relación al iconAnchor
+        });
+        return icono;
+    }
+
+</script>

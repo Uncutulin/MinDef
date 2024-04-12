@@ -1,0 +1,112 @@
+﻿@model DAL.DTOs.Admin.IndicadoresDTO
+@{
+    ViewData["Title"] = "Indicadores";
+    ViewData["BackArrow"] = "/Home/Index";
+}
+
+<box color="Info">
+    <box-header title="Listado">
+        <div class="input-group input-group-sm pull-right" style="max-width: 300px;">
+            <a title="Crear Nuevo Indicador" onclick="CrearIndicador()" class="btn btn-info btn-sm">
+                <i class="fa fa-plus"><span class="hidden-xs"> Nuevo Indicador</span></i>
+            </a>
+        </div>
+    </box-header>
+    <box-body>
+        <table class="table table-hover table-bordered table-responsive" id="IndicadoresDataTable" width="100%">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Titulo</th>
+                    <th>Descripción</th>
+                    <th>Porcentaje</th>
+                </tr>
+            </thead>
+        </table>
+    </box-body>
+</box>
+
+
+
+<modal title="Nuevo Indicador" callback-modal="true" function="CrearIndicador" load-url="/Admin/Indicadores/_Create/" size="Medium"></modal>
+<modal title="Editar Indicador" callback-modal="true" function="actualizarDatos" load-url="/Admin/Indicadores/_Update/" size="Medium"></modal>
+
+
+<script type="text/javascript">
+
+    $(function () {
+        var versionTable = $('#IndicadoresDataTable').DataTable({
+            serverSide: true,
+            processing: true,            
+            ajax: {
+                url: '@Url.Action("_IndicadoresDataTable")',
+                type: "POST",
+            },
+            order: [[0, "desc"]],
+            columns: [                
+                { data: "Titulo", title: "Titulo" },
+                { data: "Descripcion", title: "Descripción" },
+                { data: "Discriminador", title: "Tipo" },
+                {
+                    title: "Acciones",
+                    sortable: false,
+                    render: function (data, type, row) {
+                        var action = '';
+                        action += `<a onclick="actualizarDatos('${row['Id']}')" title="Modificar datos Indicar" class="btn btn-info btn-xs"><i class="fa fa-edit"></i></a>&nbsp;`;
+                        action += `<a title="Borrar Indicador" data-id="${row['Id']}" data-tipo="2" class="btn btn-danger btn-xs btn-delete-indicador"> <i class="fa fa-trash"></i> </a>`;
+                        return action;
+                    }
+                },
+            ],
+        });
+    });
+
+    $('body').on('click', '.btn-delete-indicador', function () {
+        let data = $(this).data("id");
+        Swal.fire({
+            showConfirmButton: true,
+            text: '¿Desea Eliminar el Indicador?',
+            confirmButtonText: 'SI',
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            icon: 'question',
+            iconColor: 'LightSkyBlue',
+            showCancelButton: true,
+            cancelButtonText: 'No',
+        }).then(function (result) {
+            if (result.value) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Admin/Indicadores/Delete/' + data,
+                    success: function (data) {
+                        Swal.fire({
+                            title: 'Correcto!',
+                            text: 'Se elimino correctamente el Indicador',
+                            icon: 'success',
+                            showConfirmButton: true,
+                        }).then(function (result) {
+                            var url = "/Admin/Indicadores/Index"
+                                window.location.href = url;
+                        });
+                    },
+                    error: function (XHR) {
+                        if (XHR.status === 500) {
+                            Swal.fire({
+                                text: "Error 500",
+                                icon: 'error',
+                                showConfirmButton: true,
+                            });
+                        } else {
+                            Swal.fire({
+                                text: "Error " + XHR.status,
+                                icon: 'error',
+                                showConfirmButton: true,
+                            });
+                        }
+                    }
+                })
+            }
+        });
+    });
+
+</script>

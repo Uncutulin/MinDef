@@ -1,0 +1,83 @@
+﻿<div class="col-md-8 d-flex align-items-center">
+    <div class="box box-info" id="div2">
+        @*        <div class="box-header with-border">
+                <h3 class="box-title">Marco Normativo</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                </div>
+            </div>*@
+        <div class="box-body">
+            <div class="chart">
+                <canvas id="barChart_COM" style="height: 230px; width: 787px;" height="230" width="787"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var ctx = document.getElementById('barChart_COM').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Redes Sociales', 'Prensa Escrita', 'Televisión', 'Radio'], // Etiquetas del eje X
+            datasets: [{
+                label: 'Impacto Positivo',
+                data: [70, 45, 50, 40], // Datos de impacto positivo
+                backgroundColor: '#148F77',
+                borderColor: '#148F77',
+                borderWidth: 1
+            }, {
+                label: 'Impacto Negativo',
+                data: [30, 55, 50, 60], // Datos de impacto negativo
+                backgroundColor: ' #B03A2E',
+                borderColor: ' #B03A2E',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                        stepSize: 5,
+                        min: 0
+                    }
+                }]
+            },
+            plugins: {
+                datalabels: {
+                    anchor: 'end',
+                    align: 'top',
+                    formatter: function (value, context) {
+                        return value + '%';
+
+                    }
+                }
+            },
+            onClick: function (event, elements) {
+                var mouseX = event.clientX;
+                var mouseY = event.clientY;
+                var canvasLeft = myChart.canvas.offsetLeft;
+                var canvasTop = myChart.canvas.offsetTop;
+                var xAxis = myChart.scales['x-axis-0'];
+                var leftX = xAxis.left;
+                var rightX = xAxis.right;
+
+                if (mouseX >= leftX + canvasLeft && mouseX <= rightX + canvasLeft) {
+                    var labels = xAxis.ticks.map(t => t.label);
+                    var index = Math.floor((mouseX - leftX - canvasLeft) / (rightX - leftX) * labels.length);
+                    var clickedLabel = labels[index];
+                    console.log(index)
+                    if (index === 2) {
+                        window.location.href = '/Comunicacion/RedesSociales';
+                    }
+                }
+            }
+        }
+   
+    });
+
+</script>

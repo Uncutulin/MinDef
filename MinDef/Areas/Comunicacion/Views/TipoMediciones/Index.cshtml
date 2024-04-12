@@ -1,0 +1,59 @@
+﻿@model DAL.DTOs.Comunicacion.TipoMedicionesDTO
+@{
+    ViewData["Title"] = "Tipo de Medición";
+    ViewData["BackArrow"] = "/Home/Index";
+}
+
+<box color="Info">
+    <box-header title="Listado">
+        <div class="input-group input-group-sm pull-right" style="max-width: 300px;">
+            <a title="Crear Nueva Metrica" onclick="CrearTipoMediciones()" class="btn btn-info btn-sm">
+                <i class="fa fa-plus"><span class="hidden-xs"> Nueva Metrica</span></i>
+            </a>
+        </div>
+    </box-header>
+    <box-body>
+        <table class="table table-hover table-bordered table-responsive" id="TipoMedicionesDataTable" width="100%">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nombre</th>
+                </tr>
+            </thead>
+        </table>
+    </box-body>
+</box>
+
+
+
+<modal title="Nueva Metrica" callback-modal="true" function="CrearTipoMediciones" load-url="/Comunicacion/TipoMediciones/_Create/" size="Medium"></modal>
+<modal title="Editar Metrica" callback-modal="true" function="actualizarDatos" load-url="/Comunicacion/TipoMediciones/_Update/" size="Medium"></modal>
+
+
+<script type="text/javascript">
+
+    $(function () {
+        var versionTable = $('#TipoMedicionesDataTable').DataTable({
+            serverSide: true,
+            processing: true,            
+            ajax: {
+                url: '@Url.Action("_TipoMedicionesDataTable")',
+                type: "POST",
+            },
+            order: [[0, "desc"]],
+            columns: [                
+                { data: "Nombre", title: "Nombre" },
+                {
+                    title: "Acciones",
+                    sortable: false,
+                    render: function (data, type, row) {
+                        var action = '';
+                        action += `<a onclick="actualizarDatos('${row['Id']}')" title="Modificar datos de la Metrica" class="btn btn-info btn-xs"><i class="fa fa-edit"></i></a>`;
+                        return action;
+                    }
+                },
+            ],
+        });
+    });
+
+</script>

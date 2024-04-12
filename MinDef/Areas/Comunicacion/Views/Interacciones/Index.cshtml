@@ -1,0 +1,75 @@
+﻿@model DAL.DTOs.Comunicacion.InteraccionesDTO
+@{
+    ViewData["Title"] = "Interacciones";
+    ViewData["BackArrow"] = "/Home/Index";
+}
+
+<box color="Info">
+    <box-header title="Listado">
+        <div class="input-group input-group-sm pull-right" style="max-width: 300px;">
+            <a title="Crear Nueva Interaccion" onclick="CrearInteraccion()" class="btn btn-info btn-sm">
+                <i class="fa fa-plus"><span class="hidden-xs"> Nueva Interaccion</span></i>
+            </a>
+        </div>
+    </box-header>
+    <box-body>
+        <table class="table table-hover table-bordered table-responsive" id="InteraccionesDataTable" width="100%">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Fecha</th>
+                    <th>Red</th>
+                    <th>Tipo de interaccion</th>
+                    <th>Cantidad</th>
+                    <th>Ubicacion</th>
+                </tr>
+            </thead>
+        </table>
+    </box-body>
+</box>
+
+
+
+<modal title="Nueva Interaccion" callback-modal="true" function="CrearInteraccion" load-url="/Comunicacion/Interacciones/_Create/" size="Medium"></modal>
+<modal title="Editar Interaccion" callback-modal="true" function="actualizarDatos" load-url="/Comunicacion/Interacciones/_Update/" size="Medium"></modal>
+
+
+<script type="text/javascript">
+
+    $(function () {
+        var versionTable = $('#InteraccionesDataTable').DataTable({
+            serverSide: true,
+            processing: true,            
+            ajax: {
+                url: '@Url.Action("_InteraccionesDataTable")',
+                type: "POST",
+            },
+            order: [[0, "desc"]],
+            columns: [                
+                {
+                    data: "Fecha",
+                    title: "Fecha",
+                    render: function (data, type, row) {
+                        // Convierte la fecha a un formato de fecha local sin hora
+                        var fecha = new Date(data);
+                        return fecha.toLocaleDateString();
+                    }
+                },
+                { data: "RedNombre", title: "Red" },
+                { data: "TipoMedicionNombre", title: "Tipo de interaccion" },
+                { data: "Numero", title: "Cantidad" },
+                { data: "UbicacionNombre", title: "Ubicacion" },
+                {
+                    title: "Acciones",
+                    sortable: false,
+                    render: function (data, type, row) {
+                        var action = '';
+                        action += `<a onclick="actualizarDatos('${row['Id']}')" title="Modificar datos Interaccion" class="btn btn-info btn-xs"><i class="fa fa-edit"></i></a>`;
+                        return action;
+                    }
+                },
+            ],
+        });
+    });
+
+</script>

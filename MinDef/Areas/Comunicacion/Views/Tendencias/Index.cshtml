@@ -1,0 +1,78 @@
+﻿@model DAL.DTOs.Comunicacion.TendenciasDTO
+@{
+    ViewData["Title"] = "Tendencias";
+    ViewData["BackArrow"] = "/Home/Index";
+}
+
+<box color="Info">
+    <box-header title="Listado">
+        <div class="input-group input-group-sm pull-right" style="max-width: 300px;">
+            <a title="Crear Nueva tendencia" onclick="CrearTendencia()" class="btn btn-info btn-sm">
+                <i class="fa fa-plus"><span class="hidden-xs"> Nueva tendencia</span></i>
+            </a>
+        </div>
+    </box-header>
+    <box-body>
+        <table class="table table-hover table-bordered table-responsive" id="TendenciasDataTable" width="100%">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Fecha</th>
+                    <th>Red</th>
+                    <th>Ministerio</th>
+                    <th>Tendencia</th>
+                </tr>
+            </thead>
+        </table>
+    </box-body>
+</box>
+
+
+
+<modal title="Nueva Tendencia" callback-modal="true" function="CrearTendencia" load-url="/Comunicacion/Tendencias/_Create/" size="Medium"></modal>
+<modal title="Editar Tendencia" callback-modal="true" function="actualizarDatos" load-url="/Comunicacion/Tendencias/_Update/" size="Medium"></modal>
+
+
+<script type="text/javascript">
+    $(function () {
+        var versionTable = $('#TendenciasDataTable').DataTable({
+            serverSide: true,
+            processing: true,
+            ajax: {
+                url: '@Url.Action("_TendenciasDataTable")',
+                type: "POST",
+            },
+            order: [[0, "desc"]],
+            columns: [
+                {
+                    data: "Fecha",
+                    title: "Fecha",
+                    render: function (data, type, row) {
+                        // Convierte la fecha a un formato de fecha local sin hora
+                        var fecha = new Date(data);
+                        return fecha.toLocaleDateString();
+                    }
+                },
+                { data: "RedNombre", title: "Red" },
+                { data: "MinisterioNombre", title: "Ministerio" },
+                {
+                    data: "Tendencia",
+                    title: "Tendencia",
+                    render: function (data, type, row) {
+                        return data ? 'Alza' : 'Baja';
+                    }
+                },
+                {
+                    title: "Acciones",
+                    sortable: false,
+                    render: function (data, type, row) {
+                        var action = '';
+                        action += `<a onclick="actualizarDatos('${row['Id']}')" title="Modificar datos Tendencia" class="btn btn-info btn-xs"><i class="fa fa-edit"></i></a>`;
+                        return action;
+                    }
+                },
+            ],
+        });
+    });
+</script>
+

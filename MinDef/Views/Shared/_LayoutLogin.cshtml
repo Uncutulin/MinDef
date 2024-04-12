@@ -1,0 +1,48 @@
+﻿@using Microsoft.AspNetCore.Mvc
+@using Newtonsoft.Json
+@{
+    ViewBag.Title = "Iniciar Sesión";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+    @await Component.InvokeAsync("RegisterCommonsOffline")
+
+    <link href="~/css/login.css" rel="stylesheet" />
+
+</head>
+<body class="hold-transition login-page" style="background-color: #050505 !important; background-size: cover; background-repeat: no-repeat; background-position: center center; height: auto;">
+    @*<div class="website-logo">
+    <div class="logo" style="max-width: unset; min-width: unset; text-align-last: center; padding-left: 200%;">
+    </div>
+    </div>*@
+    <div class="row">
+        <div class="col-md-8 login-panel-left">
+            <img src="~/images/logo_azul.jpeg" style="width: 50%;" />
+        </div>
+        <div class="col-md-4 login-panel-right">
+            <div class="login-box" style="">
+                <div class="" style="" id="logoResponsive">
+                    <img src="~/images/ministerio_defensa_04_logo_celeste_sin_fondo.png" alt="logo" style="" class="logo-login-des" />
+                    <div class="login-box-body" id="loginResponsive" style="width: 30.9vw; border-radius: 10px; opacity: 1; background-color: #050505 !important; padding-top: 0px !important; ">
+                        @RenderBody()
+                    </div>
+                </div>
+                <!-- /.login-logo -->
+                <!-- /.login-box-body -->
+            </div>
+            <!-- /.login-box -->
+        </div>
+    </div>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

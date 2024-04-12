@@ -1,0 +1,26 @@
+﻿@model DAL.DTOs.Admin.OperacionesDTO
+@{
+    ViewData["Title"] = "Operaciones";
+    ViewData["BackArrow"] = "/Home/Index";
+}
+
+<div id="listadoOperaciones">
+
+    <load id="operacionDataTable" load-url="/Admin/Operaciones/_OperacionesDataTableIndex/@ViewBag.MediosId"></load>
+    
+</div>
+
+
+<div id="listadoMedios">
+    @if (@ViewBag.MediosId != null)
+    {
+        <load id="mediosDataTable2" load-url="/Admin/Medios/_MediosDataTableIndex/@ViewBag.MediosId"></load>
+    }
+</div>
+
+<div id="listadoPersonalOperaciones">
+    @if (@ViewBag.PersonalOperacionesId != null)
+    {
+        <load id="personalOperacionesDataTable" load-url="/Admin/PersonalOperaciones/_PersonalOperacionesDataTableIndex/@ViewBag.PersonalOperacionesId"></load>
+    }
+</div>

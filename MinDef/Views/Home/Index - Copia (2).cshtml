@@ -1,0 +1,165 @@
+﻿@{
+    ViewData["Title"] = "Indicadores";
+}
+
+<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+
+<script src="~/js/jquery.knob.js"></script>
+<div class="content">
+    <div class="row">
+
+        <h2 style="text-align: center;margin-top: 0px;">Secretaria de Estrategia y Asuntos Militares</h2>
+        <br />
+
+        <div class="row" style="text-align-last: center;">
+            <div class="col-md-4" style="border-right: 1px solid #242d4e;">
+                <h4>Alta</h4>
+                <div class="col-md-12 col-sm-6 col-xs-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-aqua" style="background-color: #e2b768 !important;"><i class="ion ion-ios-gear-outline"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">CPU Traffic</span>
+                            <span class="info-box-number">90<small>%</small></span>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-4" style="border-right: 1px solid #242d4e;">
+                <h4>Media</h4>
+                <div class="col-md-12 col-sm-6 col-xs-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-red" style="background-color: #42688d !important;"><i class="fa fa-google-plus"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">Likes</span>
+                            <span class="info-box-number">41,410</span>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-4">
+                <h4>Baja</h4>
+                <div class="col-md-12 col-sm-6 col-xs-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-yellow" style="background-color: #182c51 !important;"><i class="ion ion-ios-people-outline"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">New Members</span>
+                            <span class="info-box-number">2,000</span>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        @*<div class="col-md-3">
+            <div class="box box-default">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Presupuesto</h3>
+
+               @* <div class="box-body">
+                    <div class="row">
+                        <div class="demo">
+
+                            <input class="knob" data-angleOffset=90 data-linecap=round value="35">
+                        </div>
+                    </div>
+
+                </div>*@
+
+               @* <div class="box-footer no-padding">
+                    <ul class="nav nav-pills nav-stacked">
+                        <li>
+                            <a href="#">
+                                United States of America
+                                <span class="pull-right text-red"><i class="fa fa-angle-down"></i> 12%</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">India <span class="pull-right text-green"><i class="fa fa-angle-up"></i> 4%</span></a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                China
+                                <span class="pull-right text-yellow"><i class="fa fa-angle-left"></i> 0%</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>*@
+@*
+            </div>
+        </div>
+        <div class="col-md-3">
+        </div>
+        <div class="col-md-3">
+        </div>*@
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        $(".knob").knob({
+            change: function (value) {
+                //console.log("change : " + value);
+            },
+            release: function (value) {
+                //console.log(this.$.attr('value'));
+                console.log("release : " + value);
+            },
+            cancel: function () {
+                console.log("cancel : ", this);
+            },
+            /*format : function (value) {
+                return value + '%';
+            },*/
+            draw: function () {
+
+                // "tron" case
+                if (this.$.data('skin') == 'tron') {
+
+                    this.cursorExt = 0.3;
+
+                    var a = this.arc(this.cv)  // Arc
+                        , pa                   // Previous arc
+                        , r = 1;
+
+                    this.g.lineWidth = this.lineWidth;
+
+                    if (this.o.displayPrevious) {
+                        pa = this.arc(this.v);
+                        this.g.beginPath();
+                        this.g.strokeStyle = this.pColor;
+                        this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, pa.s, pa.e, pa.d);
+                        this.g.stroke();
+                    }
+
+                    this.g.beginPath();
+                    this.g.strokeStyle = r ? this.o.fgColor : this.fgColor;
+                    this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, a.s, a.e, a.d);
+                    this.g.stroke();
+
+                    this.g.lineWidth = 2;
+                    this.g.beginPath();
+                    this.g.strokeStyle = this.o.fgColor;
+                    this.g.arc(this.xy, this.xy, this.radius - this.lineWidth + 1 + this.lineWidth * 2 / 3, 0, 2 * Math.PI, false);
+                    this.g.stroke();
+
+                    return false;
+                }
+            }
+        });
+
+            $("#knob").knob({
+                draw: function () { }
+            });
+
+        
+    });
+</script>
+
+    

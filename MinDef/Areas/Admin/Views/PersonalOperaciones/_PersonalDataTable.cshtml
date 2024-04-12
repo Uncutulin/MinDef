@@ -1,0 +1,106 @@
+﻿<box color="Info">
+    <box-header title="Listado del personal de la Operación - @ViewBag.OperacionNombre">
+        <div class="input-group input-group-sm pull-right" style="max-width: 300px;">
+            <a title="Crear Nuevo Personal" onclick="CrearPersonalOperaciones('@ViewBag.OperacionId')" class="btn btn-info btn-sm">
+                <i class="fa fa-plus"><span class="hidden-xs"> Nuevo Medio</span></i>
+            </a>
+        </div>
+    </box-header>
+    <box-body>
+        <table class="table table-hover table-bordered table-responsive" id="PersonalOperacionesDataTable" width="100%">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Cantidad</th>
+                    <th>Fuerza</th>
+                </tr>
+            </thead>
+        </table>
+    </box-body>
+</box>
+
+<modal title="Nuevo Personal" callback-modal="true" function="CrearPersonalOperaciones" load-url="/Admin/PersonalOperaciones/_Create/" size="Medium"></modal>
+<modal title="Editar Personal" callback-modal="true" function="actualizarDatosPersonalOperaciones" load-url="/Admin/PersonalOperaciones/_Update/" size="Medium"></modal>
+
+
+<script type="text/javascript">
+
+    $(function () {
+        var versionTable = $('#PersonalOperacionesDataTable').DataTable({
+            serverSide: true,
+            processing: true,            
+            ajax: {
+                url: '/Admin/PersonalOperaciones/_PersonalDataTable/' + @Html.Raw(ViewBag.OperacionId),
+                type: "POST",
+            },
+            order: [[0, "desc"]],
+            columns: [                
+                { data: "FuerzaNombre", title: "Fuerza" },
+                { data: "Cantidad", title: "Cantidad" },
+                {
+                    title: "Acciones",
+                    sortable: false,
+                    render: function (data, type, row) {
+                        var action = '';
+                        action += `<a onclick="actualizarDatosPersonalOperaciones('${row['Id']}')" title="Modificar datos Indicar" class="btn btn-info btn-xs"><i class="fa fa-edit"></i></a>&nbsp;`;
+
+                        action += `<a title="Borrar Medio" data-id="${row['Id']}" class="btn btn-danger btn-xs btn-delete-personal-operacion"> <i class="fa fa-trash"></i> </a>`;
+                        return action;
+                    }
+                },
+            ],
+        });
+    });
+
+
+
+    $('body').on('click', '.btn-delete-personal-operacion', function () {
+        let data = $(this).data("id");
+        let dataTipo = $(this).data("tipo");
+        Swal.fire({
+            showConfirmButton: true,
+            text: '¿Desea Eliminar el Personal?',
+            confirmButtonText: 'SI',
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            icon: 'question',
+            iconColor: 'LightSkyBlue',
+            showCancelButton: true,
+            cancelButtonText: 'No',
+        }).then(function (result) {
+            if (result.value) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Admin/PersonalOperaciones/Delete/' + data,
+                    success: function (data) {
+                        Swal.fire({
+                            title: 'Correcto!',
+                            text: 'Se elimino correctamente el Personal',
+                            icon: 'success',
+                            showConfirmButton: true,
+                        }).then(function (result) {
+                            var url = "/Admin/Operaciones/Index?PersonalOperacionesId=" + @Html.Raw(ViewBag.OperacionId)                           
+                            window.location.href = url;
+                        });
+                    },
+                    error: function (XHR) {
+                        if (XHR.status === 500) {
+                            Swal.fire({
+                                text: "Error 500",
+                                icon: 'error',
+                                showConfirmButton: true,
+                            });
+                        } else {
+                            Swal.fire({
+                                text: "Error " + XHR.status,
+                                icon: 'error',
+                                showConfirmButton: true,
+                            });
+                        }
+                    }
+                })
+            }
+        });
+    });
+
+</script>

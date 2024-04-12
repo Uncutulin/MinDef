@@ -1,0 +1,94 @@
+﻿@model DAL.DTOs.Admin.UsuarioPersonaDTO
+@{
+    ViewData["Title"] = "Usuarios";
+    ViewData["BackArrow"] = "/Home/Index";
+}
+
+<box color="Info">
+    <box-header title="Listado">
+        <div class="input-group input-group-sm pull-right" style="max-width: 300px;">
+            <a title="Crear Nuevo usuario" onclick="CrearUser()" class="btn btn-info btn-sm">
+                <i class="fa fa-plus"><span class="hidden-xs"> Nuevo usuario</span></i>
+            </a>
+        </div>
+    </box-header>
+    <box-body>
+        <table class="table table-hover table-bordered table-responsive" id="UserDataTable" width="100%">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Email</th>
+                    <th>Nro Documento</th>
+                    <th>Cuil</th>
+                    <th>Apellido</th>
+                    <th>Nombre</th>
+                    <th>Fecha nacimiento</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+        </table>
+    </box-body>
+</box>
+
+
+
+<modal title="Nuevo Usuario" callback-modal="true" function="CrearUser" load-url="/Admin/Usuario/_Create/" size="Medium"></modal>
+<modal title="Agregar imagen de perfil" function="AgregarImagen" load-url="/Admin/Usuario/_AgregarImagenPerfil/" size="Medium"></modal>
+<modal title="Modificar usuario" callback-modal="true" function="UpdateUser" load-url="/Admin/Usuario/_Update/" size="Medium"></modal>
+@*<modal title="Agregar Roles" function="EditRoles" load-url="/SecurityRoles/_Assign/" size="Medium"></modal>
+    <modal title="Agregar imagen de perfil" function="AgregarImagen" load-url="/User/_AgregarImagenPerfil/" size="Small"></modal>*@
+
+@*<img src="~/images/Recursos/PerfilPorDefecto/UserFondo.jpg"/>*@
+
+
+<script type="text/javascript">
+    var imagePath = '@Url.Content("~/images/FuerzaOperativa/EMCO/EMCO.png")';
+    $(function () {
+        var versionTable = $('#UserDataTable').DataTable({
+            serverSide: true,
+            processing: true,            
+            ajax: {
+                url: '@Url.Action("_UserDataTable")',
+                type: "POST",
+            },
+            order: [[0, "desc"]],
+            columns: [
+                {
+                    title: "Perfil",
+                    data: "FotoBase64", // Asume que cada fila tiene una URL de imagen en este campo
+                    sortable: false,
+                    render: function (data, type, row) {
+                        var imgUrl = (data != null) ? "data:image/jpeg;base64," + data : '/images/Recursos/PerfilPorDefecto/UserFondo.jpg';
+                        console.log(imgUrl);
+                        return `<img src="${imgUrl}" alt="Usuario" class="brand-image img-circle elevation-3" style="width: 50px; margin-left: 80px;">`;
+                    }
+                },
+                { data: "Email", title: "Usuario" },
+                { data: "NroDocumento", title: "NroDocumento" },
+                { data: "Cuil", title: "Cuit" },
+                { data: "Apellido", title: "Apellido" },
+                { data: "Nombre", title: "Nombre" },
+                { data: "FechaNacimiento", title: "Fecha Nacimiento" },
+                {
+                    title: "Acciones",
+                    sortable: false,
+                    render: function (data, type, row) {
+                        var action = '';                        
+                        action += `<a onclick="AgregarImagen('${row['Id']}')" title="Agregar imagen del usuario" class="btn btn-warning btn-xs"><i class="fa fa-image"></i></a> &nbsp;`;
+                        action += `<a onclick="UpdateUser('${row['Id']}')" title="Modificar usuario" class="btn btn-info btn-xs"><i class="fa fa-edit"></i></a> &nbsp;`;
+                        return action;
+                    }
+                },
+            ],
+        });
+    });
+
+
+   var sweetAlert = (type, title, text) => {
+        Swal.fire({
+            icon: type,
+            title: title,
+            text: text
+        });
+    }
+</script>

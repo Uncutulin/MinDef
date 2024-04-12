@@ -1,0 +1,36 @@
+﻿<box color="Primary">
+    <box-body>
+        <table class="table table-hover table-bordered table-responsive" id="OpDetalleDataTable" width="100%">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Fuerza</th>
+                    <th>Finalidad</th>
+                    <th>Cantidad</th>
+                </tr>
+            </thead>
+        </table>
+    </box-body>
+</box>
+<script type="text/javascript">
+
+    $(function () {
+        var url = '/COPERAL/Home/_OperacionDetallesDataTable?Operacion=' + @Html.Raw(ViewBag.OperacionId) + "&TipoMedios=@Html.Raw(ViewBag.TipoMedia)"
+        var versionCOPERALTable = $('#OpDetalleDataTable').DataTable({
+            serverSide: true,
+            processing: true,            
+            ajax: {
+                url: url.replace(/\s/g, ''),
+                type: "POST",
+            },
+            order: [[0, "desc"]],
+            columns: [                
+                { data: "Nombre", title: "Nombre" },
+                { data: "Cantidad", title: "Cantidad" },                
+                { data: "Finalidad", title: "Finalidad" },
+                { data: "FuerzaNombre", title: "Fuerza" },
+            ],
+        });
+    });
+
+</script>

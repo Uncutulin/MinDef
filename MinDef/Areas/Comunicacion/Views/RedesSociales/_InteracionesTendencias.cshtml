@@ -1,0 +1,140 @@
+﻿@model Tuple<List<DAL.DTOs.Comunicacion.InteraccionesDTO>, List<DAL.DTOs.Comunicacion.TendenciasDTO>>
+
+<!-- Itera sobre las interacciones -->
+@foreach (var interaccion in Model.Item1.GroupBy(i => i.RedNombre))
+{
+<div class="box box-info">
+    <div class="card mb-3 border-success">
+        <div class="card-header d-flex justify-content-center align-items-center">
+            <div class="row  d-flex justify-content-center ">
+                <div class="col-md-12" style="text-align: center; font-size: large; ">
+                    <img src="~/images/Redes Sociales SVG/@interaccion.First().Red.Logo" alt="Descripción del icono" style="max-width: 50%; max-height: 50%;">
+                    <span>@interaccion.Key</span>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <!-- Ministerio de Defensa -->
+                <div class="col-md-8 d-flex justify-content-center align-items-center" style="border-right: 1px solid #cecece; ">
+                    <div class="text-center">
+                        <img src="~/images/MinDefensaLogoColor.png" alt="Escudo Ministerio de Defensa" style="max-width: 93px; height: auto;">
+                        <h4 class="mt-3">Ministerio de Defensa</h4>
+                        <canvas id="grafico-@interaccion.Key" class="mt-3"></canvas>
+                    </div>
+                </div>
+                <!-- Estado Nacional -->
+                <div class="col-md-4 d-flex justify-content-center align-items-center">
+                    <div class="text-center">
+                        <img src="~/images/Logo_jefatura_de_gabinete_argentina.png" alt="Escudo Estado Nacional" style="max-width: 87px; height: auto;">
+                        <h4 class="mt-3">Estado Nacional</h4>
+                    </div>
+                    <br />
+                    <!-- Itera sobre las tendencias -->
+                    @foreach (var tendencia in ViewBag.Tendencias[interaccion.Key])
+                    {
+                        <p class="text-center">
+                            @tendencia.MinisterioNombre - @tendencia.Fecha.ToShortDateString()
+                            @if (tendencia.Tendencia)
+                            {
+                                <i class="fa fa-arrow-up text-success"></i> <!-- Flecha verde hacia arriba -->
+                            }
+                            else
+                            {
+                                <i class="fa fa-arrow-down text-danger"></i> <!-- Flecha roja hacia abajo -->
+                            }
+                        </p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+      
+    <!-- Script para cargar datos y crear gráficos -->       
+    <script>
+        $(document).ready(function () {
+            cargarDatosYCrearGrafico('@interaccion.Key', 'grafico-@interaccion.Key');
+        });
+
+        function cargarDatosYCrearGrafico(redSocial, containerId) {
+            $.ajax({
+                url: '@Url.Action("ObtenerInteraccionesDeRedesSociales", "RedesSociales")',
+                type: 'GET',
+                data: { red: redSocial },
+                dataType: 'json',
+                success: function (data) {
+                    var fechas = data.map(d => new Date(d.Fecha)); // Convertir las fechas a objetos Date
+                    var labels = fechas.map(d => d.toISOString().substring(0, 10)); // Formato ISO 8601
+
+                    var datasets = [];
+
+                    // Iterar sobre los diferentes tipos de mediciones
+                    var tiposMedicion = [...new Set(data.map(d => d.TipoMedicionNombre))];
+                    tiposMedicion.forEach(function (tipo) {
+                        var valores = data.filter(d => d.TipoMedicionNombre === tipo).map(d => d.Numero);
+
+                        // Generar un color aleatorio para el dataset
+                        var color = getRandomColor();
+
+                        datasets.push({
+                            label: tipo,
+                            data: valores,
+                            backgroundColor: 'rgba(' + color + ', 0.2)',
+                            borderColor: 'rgba(' + color + ', 1)',
+                            borderWidth: 1
+                        });
+                    });
+
+                    var ctx = document.getElementById(containerId).getContext('2d');
+                    var myChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: labels,
+                            datasets: datasets
+                        },
+                        options: {
+                            responsive: true,
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true
+                                    }
+                                }],
+                                xAxes: [{
+                                    type: 'time',
+                                    time: {
+                                        unit: 'day', // Establecer la unidad de tiempo como día
+                                        displayFormats: {
+                                            day: 'MMM D' // Formato de visualización de fecha (mes y día)
+                                        }
+                                    },
+                                    ticks: {
+                autoSkip: true,
+                maxTicksLimit: 20,
+                },
+                display: true,
+                scaleLabel: {
+                    display: true,
+                    labelString: "Point"
+                }
+                                }]
+                            }
+                        }
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error al cargar los datos:', error);
+                }
+            });
+        }
+
+        // Función para generar un color aleatorio en formato RGBA
+        function getRandomColor() {
+            var r = Math.floor(Math.random() * 256);
+            var g = Math.floor(Math.random() * 256);
+            var b = Math.floor(Math.random() * 256);
+            return r + ',' + g + ',' + b;
+        }
+    </script>
+}

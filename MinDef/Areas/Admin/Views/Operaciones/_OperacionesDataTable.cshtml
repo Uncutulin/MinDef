@@ -1,0 +1,108 @@
+﻿
+<box color="Info">
+    <box-header title="Listado">
+        <div class="input-group input-group-sm pull-right" style="max-width: 300px;">
+            <a title="Crear Nueva Operación" onclick="CrearOperacion()" class="btn btn-info btn-sm">
+                <i class="fa fa-plus"><span class="hidden-xs"> Nueva Operación</span></i>
+            </a>
+        </div>
+    </box-header>
+    <box-body>
+        <table class="table table-hover table-bordered table-responsive" id="OperacionesDataTable" width="100%">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nombre</th>
+                    <th>Descripcion</th>
+                </tr>
+            </thead>
+        </table>
+    </box-body>
+</box>
+<modal title="Nueva Operación" callback-modal="true" function="CrearOperacion" load-url="/Admin/Operaciones/_Create/" size="Medium"></modal>
+<modal title="Editar Operación" callback-modal="true" function="actualizarDatos" load-url="/Admin/Operaciones/_Update/" size="Medium"></modal>
+
+<script type="text/javascript">
+
+    $(function () {
+        var versionTableOperaciones = $('#OperacionesDataTable').DataTable({
+            serverSide: true,
+            processing: true,
+            ajax: {
+                url: '@Url.Action("_OperacionesDataTable")',
+                type: "POST",
+            },
+            order: [[0, "desc"]],
+            columns: [
+                { data: "Nombre", title: "Nombre" },
+                { data: "Descripcion", title: "Descripción" },
+                {
+                    title: "Acciones",
+                    sortable: false,
+                    render: function (data, type, row) {
+                        var action = '';
+                        action += `<a onclick="actualizarDatos('${row['Id']}')" title="Modificar datos Indicar" class="btn btn-info btn-xs"><i class="fa fa-edit"></i></a>&nbsp;`;
+
+                        action += `<a href="/Admin/Operaciones/Index?MedioId=${row['Id']}" title="Agregar Medios" class="btn btn-success btn-xs"> <i class="fa fa-server"></i> </a>&nbsp;`;
+                        action += `<a href="/Admin/Operaciones/Index?PersonalOperacionesId=${row['Id']}" title="Agregar Personal" class="btn btn-warning btn-xs"> <i class="fa fa-users"></i> </a>&nbsp;`;
+
+                        action += `<a title="Borrar Operación" data-id="${row['Id']}" class="btn btn-danger btn-xs btn-delete-Operacion"> <i class="fa fa-trash"></i> </a>`;
+                        return action;
+                    }
+                },
+            ],
+        });
+    });
+
+
+
+    $('body').on('click', '.btn-delete-Operacion', function () {
+        let data = $(this).data("id");
+        console.log(data)
+        Swal.fire({
+            showConfirmButton: true,
+            text: '¿Desea Eliminar la Operación?',
+            confirmButtonText: 'SI',
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            icon: 'question',
+            iconColor: 'LightSkyBlue',
+            showCancelButton: true,
+            cancelButtonText: 'No',
+        }).then(function(result) {
+            if (result.value) {                                
+                $.ajax({
+                    type: 'POST',
+                    url: '/Admin/Operaciones/Delete/' + data,
+                    success: function(data) {                                       
+                        Swal.fire({
+                            title: 'Correcto!',
+                            text: 'Se elimino correctamente la Operacion',
+                            icon: 'success',
+                            showConfirmButton: true,
+                        }).then(function(result) {
+                            location.reload();
+                        });
+                    },
+                    error: function(XHR) {
+                        if (XHR.status === 500)
+                        {                        
+                            Swal.fire({
+                                text: "Error 500",
+                                icon: 'error',
+                                showConfirmButton: true,
+                            });
+                        }else
+                        {
+                            Swal.fire({
+                                text: "Error " + XHR.status,
+                                icon: 'error',
+                                showConfirmButton: true,
+                            });
+                        }
+                    }
+                })
+            }
+        });
+    });
+</script>

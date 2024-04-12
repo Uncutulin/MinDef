@@ -1,0 +1,36 @@
+﻿@using Commons.HtmlHelpers
+@model DAL.DTOs.Comunicacion.UbicacionesDTO
+
+<form asp-action="_Create">
+
+    @using (Html.BoxBody())
+    {
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group ">
+            <label asp-for="Nombre" class="control-label"></label>
+            <input asp-for="Nombre" class="form-control" />
+            <span asp-validation-for="Nombre" class="text-danger"></span>
+        </div>
+        <div class="form-group ">
+            <label asp-for="Latitud" class="control-label"></label>
+            <input asp-for="Latitud" class="form-control" placeholder="Ejemplo: -34.6037" />
+            <span asp-validation-for="Latitud" class="text-danger"></span>
+        </div>
+        <div class="form-group ">
+            <label asp-for="Longitud" class="control-label"></label>
+            <input asp-for="Longitud" class="form-control" placeholder="Ejemplo: -34.6037" />
+            <span asp-validation-for="Longitud" class="text-danger"></span>
+        </div>
+    }
+    @using (Html.BoxFooter())
+    {
+        <div class="col-md-12" style="display: flex; justify-content: right;align-items: center;">
+            <div class="form-group ">
+                <a class="btn btn-default" data-dismiss="modal">Cancelar</a>
+                <input type="submit" value="Guardar" class="btn btn-primary pull-right" />
+            </div>
+        </div>
+    }
+
+</form>
+

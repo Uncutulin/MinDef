@@ -1,0 +1,69 @@
+﻿@model DAL.DTOs.SecrEstrategiaAsuntosMilitares.AccionesDTO
+@{
+    ViewData["Title"] = "Acciones";
+    ViewData["BackArrow"] = "/Home/Index";
+}
+
+<box color="Info">
+    <box-header title="Listado">
+        <div class="input-group input-group-sm pull-right" style="max-width: 300px;">
+            <a title="Crear Nueva Accion" onclick="CrearAccion()" class="btn btn-info btn-sm">
+                <i class="fa fa-plus"><span class="hidden-xs"> Nueva Accion</span></i>
+            </a>
+        </div>
+    </box-header>
+    <box-body>
+        <table class="table table-hover table-bordered table-responsive" id="AccionesDataTable" width="100%">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Título</th>
+                    <th>Descripción</th>
+                    <th>Porcentaje</th>
+                    <th>Prioridad</th>
+                    <th>Prioridad Color</th>
+                    <th>OrganismoId</th>
+                </tr>
+            </thead>
+        </table>
+    </box-body>
+</box>
+
+
+
+<modal title="Nueva Acción" callback-modal="true" function="CrearAccion" load-url="/SubSecrPlaneamientoOperativoCoordinacionEjecutivaEmergencias/Acciones/_Create/" size="Medium"></modal>
+<modal title="Editar Acción" callback-modal="true" function="actualizarDatos" load-url="/SubSecrPlaneamientoOperativoCoordinacionEjecutivaEmergencias/Acciones/_Update/" size="Medium"></modal>
+
+
+<script type="text/javascript">
+
+    $(function () {
+        var versionTable = $('#AccionesDataTable').DataTable({
+            serverSide: true,
+            processing: true,            
+            ajax: {
+                url: '@Url.Action("_AccionesDataTable")',
+                type: "POST",
+            },
+            order: [[0, "desc"]],
+            columns: [                
+                { data: "Titulo", title: "Título" },
+                { data: "Descripcion", title: "Descripción" },
+                { data: "Porcentaje", title: "Porcentaje" },
+                { data: "Proridad", title: "Prioridad" },
+                { data: "ProridadColor", title: "Prioridad Color" },
+                { data: "OrganismoId", title: "OrganismoId" },
+                {
+                    title: "Acciones",
+                    sortable: false,
+                    render: function (data, type, row) {
+                        var action = '';
+                        action += `<a onclick="actualizarDatos('${row['Id']}')" title="Modificar datos de la Acción" class="btn btn-info btn-xs"><i class="fa fa-edit"></i></a>`;
+                        return action;
+                    }
+                },
+            ],
+        });
+    });
+
+</script>

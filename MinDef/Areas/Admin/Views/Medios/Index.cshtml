@@ -1,0 +1,53 @@
+﻿<box color="Info">
+    <box-header title="Listado">
+        <div class="input-group input-group-sm pull-right" style="max-width: 300px;">
+            <a title="Crear Nueva Fuerza" onclick="CrearFuerza()" class="btn btn-info btn-sm">
+                <i class="fa fa-plus"><span class="hidden-xs"> Nueva Fuerza</span></i>
+            </a>
+        </div>
+    </box-header>
+    <box-body>
+        <table class="table table-hover table-bordered table-responsive" id="FuerzasDataTable" width="100%">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nombre</th>
+                    <th>Codigo</th>
+                </tr>
+            </thead>
+        </table>
+    </box-body>
+</box>
+
+<modal title="Nueva Fuerza" callback-modal="true" function="CrearFuerza" load-url="/Admin/Fuerzas/_Create/" size="Medium"></modal>
+<modal title="Editar Fuerza" callback-modal="true" function="actualizarDatos" load-url="/Admin/Fuerzas/_Update/" size="Medium"></modal>
+
+
+<script type="text/javascript">
+
+    $(function () {
+        var versionTable = $('#FuerzasDataTable').DataTable({
+            serverSide: true,
+            processing: true,            
+            ajax: {
+                url: '@Url.Action("/Admin/Medios/_FuerzasDataTable")',
+                type: "POST",
+            },
+            order: [[0, "desc"]],
+            columns: [                
+                { data: "Nombre", title: "Nombre" },
+                { data: "Codigo", title: "Codigo" },
+                {
+                    title: "Acciones",
+                    sortable: false,
+                    render: function (data, type, row) {
+                        var action = '';
+                        action += `<a onclick="actualizarDatos('${row['Id']}')" title="Modificar datos Indicar" class="btn btn-info btn-xs"><i class="fa fa-edit"></i></a>`;
+                        return action;
+                    }
+                },
+            ],
+        });
+    });
+
+</script>

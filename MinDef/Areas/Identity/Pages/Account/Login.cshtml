@@ -1,0 +1,40 @@
+﻿@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Iniciar sesion";
+}
+
+
+<form asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" role="form">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <p class="login-box-msg" style=" font-weight:600; color:white; font-size:30px">@ViewBag.Title</p>
+    <div class="form-group has-feedback">
+        <input asp-for="Input.Email" class="form-control" placeholder="Usuario" style="width: 65%; height: 55px; border-radius: 7px; margin: auto; font-size: 1.2em;" />
+        <span asp-validation-for="Input.Email" class="text-danger"></span>
+    </div>
+    <div class="form-group has-feedback">
+        <input asp-for="Input.Password" class="form-control" placeholder="Contraseña" style="width: 65%; height: 55px; border-radius: 7px; margin-left: auto; margin-right: auto; font-size: 1.2em; " />
+        <span asp-validation-for="Input.Password" class="text-danger"></span>
+    </div>
+
+    <div class="row">
+        @*<div class="col-xs-8">
+        <div class="checkbox">
+        <label class="">
+        <input data-val="true" data-val-required="The Remember me? field is required." id="RememberMe" name="RememberMe" type="checkbox" value="true"><input name="RememberMe" type="hidden" value="false">
+        Recuerdame
+        </label>
+        </div>
+        </div>*@
+        <!-- /.col -->
+        <div class="col-xs-12">
+            <button type="submit" class="btn btn-primary btn-block btn-flat" style=" font-weight: 600; font-size: 15px; height: 55px; background-color: #285282; box-shadow: inset 0px 4px 4px rgba(255, 255, 255, 0.22); border-radius: 10px; border-color: transparent; letter-spacing: 2px; margin-left: auto; margin-right: auto; width: 65%; font-family: system-ui;">Ingresar</button>
+        </div>
+        <!-- /.col -->
+    </div>
+    @*<a asp-page="./ForgotPassword">Recuperar Constraseña</a> <br />*@
+</form>
+
+
+<partial name="_ValidationScriptsPartial" />

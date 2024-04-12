@@ -1,0 +1,118 @@
+﻿@using Commons.HtmlHelpers
+@model DAL.DTOs.Admin.IndicadoresDTO
+
+<form asp-action="_Create">
+
+    @using (Html.BoxBody())
+    {
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group ">
+            <label asp-for="Titulo" class="control-label"></label>
+            <input asp-for="Titulo" class="form-control" />
+            <span asp-validation-for="Titulo" class="text-danger"></span>
+        </div>
+        <div class="form-group ">
+            <label asp-for="Descripcion" class="control-label"></label>
+            <input asp-for="Descripcion" class="form-control" />
+            <span asp-validation-for="Descripcion" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Discriminador" class="control-label"></label>
+            <select asp-items="@ViewBag.TypeIndicador" asp-for="Discriminador" class="form-control" searchable="true"></select>
+            <span asp-validation-for="Discriminador" class="text-danger"></span>
+        </div>
+
+        <div class="form-group ">
+            <label class="control-label">Subtitulo</label>
+            <input asp-for="PrimerSubTitulo" class="form-control" />
+            <span asp-validation-for="PrimerSubTitulo" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Color" class="control-label"></label>
+            <div class="input-group">
+                <span class="input-group-addon" id="indicador-color"></span>
+                <select asp-items="@ViewBag.TypeColor" asp-for="Color" class="form-control"></select>
+            </div>
+            <span asp-validation-for="Color" class="text-danger"></span>
+        </div>
+
+        <div id="IndicadorComunicacion" class="divOcultoTipoIndicador" hidden>
+            
+
+            <div class="form-group ">
+                <label asp-for="PrimerValor" class="control-label"></label>
+                <input asp-for="PrimerValor" class="form-control" />
+                <span asp-validation-for="PrimerValor" class="text-danger"></span>
+            </div>
+
+            <div class="form-group ">
+                <label asp-for="SegundoSubTituto" class="control-label"></label>
+                <input asp-for="SegundoSubTituto" class="form-control" />
+                <span asp-validation-for="SegundoSubTituto" class="text-danger"></span>
+            </div>
+
+            <div class="form-group ">
+                <label asp-for="SegundoValor" class="control-label"></label>
+                <input asp-for="SegundoValor" class="form-control" />
+                <span asp-validation-for="SegundoValor" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div id="IndicadorNumero" class="divOcultoTipoIndicador" hidden>
+            <div class="form-group ">
+                <label asp-for="Numero" class="control-label"></label>
+                <input asp-for="Numero" class="form-control" />
+                <span asp-validation-for="Numero" class="text-danger"></span>
+            </div>
+        </div>
+        <div id="IndicadorPorcentaje" class="divOcultoTipoIndicador">
+            <div class="form-group">
+                <label asp-for="Porcentaje" class="control-label"></label>
+                <input asp-for="Porcentaje" class="form-control" />
+                <span asp-validation-for="Porcentaje" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="">
+                    <div class="icheckbox_flat-green checked" aria-checked="true" aria-disabled="false" style="position: relative;">
+                        <input type="checkbox" class="flat-red"  style="position: absolute; opacity: 0;" />
+                        <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
+                        Indicar Tendencia
+                    </div>
+                </label>
+            </div>
+        </div>
+
+    }
+    @using (Html.BoxFooter())
+    {
+        <div class="col-md-12" style="display: flex; justify-content: right;align-items: center;">
+            <div class="form-group ">
+                <a class="btn btn-default" data-dismiss="modal">Cancelar</a>
+                <input type="submit" value="Guardar" class="btn btn-primary pull-right" />
+            </div>
+        </div>
+    }
+
+</form>
+
+<script>
+    $(document).ready(function () {
+        $('#Discriminador').change(function () {
+            const selectedValue = $(this).val();
+            $('.divOcultoTipoIndicador').hide();
+            $('#' + selectedValue).show();
+        });
+
+        $('#indicador-color').css({
+            'background': $("#Color").val()
+        });
+    });
+
+    $("#Color").on("change", function () {
+        $('#indicador-color').css({
+            'background': $("#Color").val()
+        });
+    })
+</script>

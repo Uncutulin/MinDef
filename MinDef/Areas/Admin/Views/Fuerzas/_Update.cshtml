@@ -1,0 +1,33 @@
+﻿@using Commons.HtmlHelpers
+@model DAL.DTOs.Admin.FuerzasDTO
+
+<form asp-action="_Update">
+
+    @using (Html.BoxBody())
+    {
+        <input type="hidden" asp-for="Id" />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group ">
+            <label asp-for="Nombre" class="control-label"></label>
+            <input asp-for="Nombre" class="form-control" />
+            <span asp-validation-for="Nombre" class="text-danger"></span>
+        </div>
+        <div class="form-group ">
+            <label asp-for="Codigo" class="control-label"></label>
+            <input asp-for="Codigo" class="form-control" />
+            <span asp-validation-for="Codigo" class="text-danger"></span>
+        </div>
+
+    }
+    @using (Html.BoxFooter())
+    {
+        <div class="col-md-12" style="display: flex; justify-content: right;align-items: center;">
+            <div class="form-group ">
+                <a class="btn btn-default" data-dismiss="modal">Cancelar</a>
+                <input type="submit" value="Guardar" class="btn btn-primary pull-right" />
+            </div>
+        </div>
+    }
+
+</form>

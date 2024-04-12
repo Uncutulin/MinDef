@@ -1,0 +1,120 @@
+﻿@using DAL.DTOs.SecrEstrategiaAsuntosMilitares;
+@{
+    ViewData["Title"] = "";
+}
+<style>
+    .font-large {
+        font-size: x-large;
+    }
+
+</style>
+<script src="~/js/jquery.knob.js"></script>
+
+<div class="content">
+    <div class="row">
+        <h2 style="text-align: center;margin-top: 0px;font-weight: bold;" id="titleContainer">@ViewBag.Titulo</h2>
+        <br />
+        <br />
+        <br />
+        <h3 style="text-align: center;margin-top: 0px;font-weight: bold;" id="titleContainer">Acciones</h3>
+        <div class="row" style="text-align-last: center;" id="ContainerDetails">
+            <div class="col-md-4">
+                <div class="box box-danger" style="border-top-width: 6px;">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Prioridad Alta</h3>
+                    </div>
+
+                    <div class="box-body no-padding">
+                        <div class="col-md-12 col-sm-6 col-xs-12" style="text-align-last: left;">
+                            <ul class="products-list product-list-in-box">
+                                @foreach (AccionesDTO item in (List<AccionesDTO>)ViewBag.AccionesPrioridadAlta)
+                                {
+                                    <li class="item">
+                                        <div class="product-info" style="margin-left: 0px;">
+                                            <a href="javascript:void(0)" class="product-title">
+                                                @item.Titulo
+                                            </a>
+    @*                                        <div class="progress progress-xs">
+                                                <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
+                                            </div>*@
+                                            <span class="badge bg-red">@item.Porcentaje %</span>
+                                            <span class="product-description">
+                                                @item.Descripcion
+                                            </span>
+                                        </div>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="box box-warning" style="border-top-width: 6px;">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Prioridad Media</h3>
+                    </div>
+                    <div class="box-body no-padding">
+                        <div class="col-md-12 col-sm-6 col-xs-12" style="text-align-last: left;">
+                            <ul class="products-list product-list-in-box">
+                                @foreach (AccionesDTO item in (List<AccionesDTO>)ViewBag.AccionesPrioridadMedia)
+                                {
+                                    <li class="item">
+                                        <div class="product-info" style="margin-left: 0px;">
+                                            <a href="javascript:void(0)" class="product-title">
+                                                @item.Titulo
+                                            </a>
+                                            <span class="badge bg-yellow">@item.Porcentaje %</span>
+                                            <span class="product-description">
+                                                @item.Descripcion
+                                            </span>
+                                        </div>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="box box-success" style="border-top-width: 6px;">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Prioridad Baja</h3>
+                    </div>
+                    <div class="box-body no-padding">
+                        <div class="col-md-12 col-sm-6 col-xs-12" style="text-align-last: left;">
+                            <ul class="products-list product-list-in-box">
+                                @foreach (AccionesDTO item in (List<AccionesDTO>)ViewBag.AccionesPrioridadBaja)
+                                {
+                                    <li class="item">
+                                        <div class="product-info" style="margin-left: 0px;">
+                                            <a href="javascript:void(0)" class="product-title">
+                                                @item.Titulo
+                                            </a>
+                                            <span class="badge bg-green">@item.Porcentaje %</span>
+                                            <span class="product-description">
+                                                @item.Descripcion
+                                            </span>
+                                        </div>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<div class="" id="ContainerGrafico1"></div>
+<div class="" id="ContainerGrafico2"></div>
+
+<script>
+    $(document).ready(function () {
+       
+    });
+
+</script>

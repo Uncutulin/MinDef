@@ -1,0 +1,54 @@
+﻿<box color="Info">
+    <box-header title="Listado">
+        <div class="input-group input-group-sm pull-right" style="max-width: 300px;">
+            <a title="Crear Nuevo Medio" onclick="CrearMedio(@ViewBag.MedioId)" class="btn btn-info btn-sm">
+                <i class="fa fa-plus"><span class="hidden-xs"> Nuevo Medio</span></i>
+            </a>
+        </div>
+    </box-header>
+    <box-body>
+        <table class="table table-hover table-bordered table-responsive" id="MedioDataTable" width="100%">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nombre</th>
+                    <th>Finalidad</th>
+                    <th>Cantidad</th>
+                </tr>
+            </thead>
+        </table>
+    </box-body>
+</box>
+
+<modal title="Nuevo Medios" callback-modal="true" function="CrearMedios" load-url="/Admin/Medios/_Create/" size="Medium"></modal>
+<modal title="Editar Medios" callback-modal="true" function="actualizarDatosMedios" load-url="/Admin/Medios/_Update/" size="Medium"></modal>
+
+
+<script type="text/javascript">
+
+    $(function () {
+        var versionMediosTable = $('#MedioDataTable').DataTable({
+            serverSide: true,
+            processing: true,            
+            ajax: {
+                url: '@Url.Action("_MedioDataTable")',
+                type: "POST",
+            },
+            order: [[0, "desc"]],
+            columns: [                
+                { data: "Nombre", title: "Nombre" },
+                { data: "Codigo", title: "Codigo" },
+                {
+                    title: "Acciones",
+                    sortable: false,
+                    render: function (data, type, row) {
+                        var action = '';
+                        action += `<a onclick="actualizarDatosMedios('${row['Id']}')" title="Modificar datos Indicar" class="btn btn-info btn-xs"><i class="fa fa-edit"></i></a>`;
+                        return action;
+                    }
+                },
+            ],
+        });
+    });
+
+</script>

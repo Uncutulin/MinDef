@@ -1,0 +1,39 @@
+﻿@using Commons.HtmlHelpers
+@using DAL.DTOs.Comunicacion
+@model DAL.DTOs.Comunicacion.TendenciasDTO
+
+<form asp-action="_Create">
+    @using (Html.BoxBody())
+    {
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label class="control-label">Red Social</label>
+            <select asp-items="@ViewBag.Redes" asp-for="Red.Id" class="form-control" searchable="true"></select>
+            <span asp-validation-for="Red.Id" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label class="control-label">Ministerios</label>
+            <select asp-items="@ViewBag.Ministerios" asp-for="Ministerio.Id" class="form-control" searchable="true"></select>
+            <span asp-validation-for="Ministerio.Id" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label class="control-label">Fecha</label>
+            <input asp-for="Fecha" class="form-control" type="date" />
+            <span asp-validation-for="Fecha" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label class="control-label">Alza</label>
+            <input asp-for="Tendencia" class="form-control" type="checkbox" />
+            <span asp-validation-for="Tendencia" class="text-danger"></span>
+        </div>
+    }
+    @using (Html.BoxFooter())
+    {
+        <div class="col-md-12" style="display: flex; justify-content: right;align-items: center;">
+            <div class="form-group">
+                <a class="btn btn-default" data-dismiss="modal">Cancelar</a>
+                <input type="submit" value="Guardar" class="btn btn-primary pull-right" />
+            </div>
+        </div>
+    }
+</form>

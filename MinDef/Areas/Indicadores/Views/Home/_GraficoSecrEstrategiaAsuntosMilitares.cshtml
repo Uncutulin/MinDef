@@ -1,0 +1,271 @@
+﻿@using DAL.DTOs.SecrEstrategiaAsuntosMilitares;
+@using Newtonsoft.Json
+@{
+    ViewData["Title"] = "";
+
+    string jsonAlta = JsonConvert.SerializeObject((List<AccionesDTO>)ViewBag.AccionesPrioridadAlta);
+    string jsonMedia = JsonConvert.SerializeObject((List<AccionesDTO>)ViewBag.AccionesPrioridadMedia);
+    string jsonBaja = JsonConvert.SerializeObject((List<AccionesDTO>)ViewBag.AccionesPrioridadBaja);
+}
+<style>
+    .font-large {
+        font-size: x-large;
+    }
+
+    .zoomable-tr {
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+    }
+
+</style>
+<script src="~/js/jquery.knob.js"></script>
+
+<div class="content" style="width:90%">
+    <div class="row">
+        <div class="row" style="text-align-last: center;" id="ContainerDetails">
+            <div class="col-md-12">
+                <div class="box box-danger" style="border-top-width: 6px;">                   
+                    <div class="box-body no-padding">
+                        <div class="col-md-12 col-sm-6 col-xs-12" style="text-align-last: left; padding: 0px;">
+                            <table class="table table-hover" style="width:100%">
+                                <tbody>
+                                    <tr>
+                                        <th>Leyes/Normativas</th>
+                                        @*<th>Descripción</th>*@
+                                        <th>Progreso</th>
+                                        <th style="width: 40px">Porcentaje</th>
+                                    </tr>
+                                    @foreach (AccionesDTO item in (List<AccionesDTO>)ViewBag.AccionesPrioridadAlta)
+                                    {
+                                        <tr class="registro-tabla zoomable-tr" data-id="@item.Id" data-prioridad="@item.Proridad">
+                                            <td style="width:60%">@item.Titulo</td>
+                                            @*<td>@item.Descripcion</td>*@
+                                            <td style="width:30%">
+                                                <div class="progress progress progress-striped active">
+                                                    <div class="progress-bar progress-bar-danger" style="width: @item.Porcentaje%"></div>
+                                                </div>
+                                            </td>
+                                            <td style="width:10%"><span class="badge bg-red" style="font-size: large;">@item.Porcentaje %</span></td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="box box-warning" style="border-top-width: 6px;">                       
+                        <div class="box-body no-padding">
+                            <div class="col-md-12 col-sm-6 col-xs-12" style="text-align-last: left; padding: 0px;">
+                                <table class="table  table-hover" style="width:100%">
+                                    <tbody>
+                                        
+                                    </tr>
+                                        @foreach (AccionesDTO item in (List<AccionesDTO>)ViewBag.AccionesPrioridadMedia)
+                                        {
+                                            <tr class="registro-tabla zoomable-tr" data-id="@item.Id" data-prioridad="@item.Proridad">
+                                                <td style="width:60%">@item.Titulo</td>
+                                                @*<td>@item.Descripcion</td>*@
+                                                <td style="width:30%">
+                                                    <div class="progress progress progress-striped active">
+                                                        <div class="progress-bar progress-bar-warning" style="width: @item.Porcentaje%"></div>
+                                                    </div>
+                                                </td>
+                                                <td style="width:10%"><span class="badge bg-yellow" style="font-size: large;">@item.Porcentaje %</span></td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box box-success" style="border-top-width: 6px;">
+                        <div class="box-body no-padding">
+                            <div class="col-md-12 col-sm-6 col-xs-12" style="text-align-last: left; padding: 0px;">
+                                <table class="table  table-hover" style="width:100%">
+                                    <tbody>                                        
+                                        @foreach (AccionesDTO item in (List<AccionesDTO>)ViewBag.AccionesPrioridadBaja)
+                                        {
+                                            <tr class="registro-tabla zoomable-tr" data-id="@item.Id" data-prioridad="@item.Proridad">
+                                                <td style="width:60%">@item.Titulo</td>
+                                                @*<td>@item.Descripcion</td>*@
+                                                <td style="width:30%">
+                                                    <div class="progress progress progress-striped active">
+                                                        <div class="progress-bar progress-bar-green" style="width: @item.Porcentaje%"></div>
+                                                    </div>
+                                                </td>
+                                                <td style="width:10%"><span class="badge bg-green" style="font-size: large;">@item.Porcentaje %</span></td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 
+            </div>
+
+            @*<div class="col-md-4">
+                <div class="box box-warning" style="border-top-width: 6px;">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Prioridad Media</h3>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="box-body no-padding">
+                        <div class="col-md-12 col-sm-6 col-xs-12" style="text-align-last: left; padding: 0px;" ">
+                            <table class="table table-bordered table-hover" style="width:100%">
+                                <tbody>
+                                    <tr>
+            <th>Título</th>
+                                        @*<th>Descripción</th>
+                                        <th>Progreso</th>
+                                        <th style="width: 40px">Porcentaje</th>
+                                    </tr>
+                                    @foreach (AccionesDTO item in (List<AccionesDTO>)ViewBag.AccionesPrioridadMedia)
+                                    {
+                                    <tr class="registro-tabla zoomable-tr" data-id="@item.Id" data-prioridad="@item.Proridad">
+                                        <td>@item.Titulo</td>
+                                        @*<td>@item.Descripcion</td>
+                                        <td>
+                                            <div class="progress progress progress-striped active">
+                                                <div class="progress-bar progress-bar-yellow" style="width: @item.Porcentaje%"></div>
+                                            </div>
+                                        </td>
+                                        <td><span class="badge bg-yellow" style="font-size: large;">@item.Porcentaje %</span></td>
+                                    </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+
+            @*<div class="col-md-4">
+                <div class="box box-success" style="border-top-width: 6px;">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Prioridad Baja</h3>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="box-body no-padding">
+                        <div class="col-md-12 col-sm-6 col-xs-12" style="text-align-last: left; padding: 0px;" ">
+                            <table class="table table-bordered table-hover" style="width:100%">
+                                <tbody>
+                                    <tr>
+                                        <th>Título</th>
+                                        @*<th>Descripción</th>
+                                        <th>Progreso</th>
+                                        <th style="width: 40px">Porcentaje</th>
+                                    </tr>
+                                    @foreach (AccionesDTO item in (List<AccionesDTO>)ViewBag.AccionesPrioridadBaja)
+                                    {
+                                        <tr class="registro-tabla zoomable-tr" data-id="@item.Id" data-prioridad="@item.Proridad">
+                                            <td>@item.Titulo</td>
+                                            @*<td>@item.Descripcion</td>
+                                            <td>
+                                                <div class="progress progress progress-striped active">
+                                                    <div class="progress-bar progress-bar-green" style="width: @item.Porcentaje%"></div>
+                                                </div>
+                                            </td>
+                                            <td><span class="badge bg-green" style="font-size: large;">@item.Porcentaje %</span></td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+        </div>
+    </div>
+</div>
+<br />
+
+<div class="modal fade in" id="modal-acciones" style="">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">Acción</h4>
+            </div>
+            <div class="modal-body">
+                <div class="box-body" style="padding-top: 0px;">
+                    <h3 style="text-align: center; margin-top: 0px;" class="modal-titulo modal-text"></h3>
+                    <hr>
+                    <p class="text-muted modal-descripcion modal-text"></p>
+                    <hr>
+                    <strong>Porcentaje</strong>
+                    <div class="row">
+                        <div class="col-md-10">
+                            <div class="progress progress progress-striped active">
+                                <div class="progress-bar progress-bar-green moda-progress-bar" id="progress-bar"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <span class="badge bg-green modal-badge modal-text" id="modal-badge" style="font-size: large;"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-darnger pull-left" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    $(document).ready(function () {
+        let AccionesPrioridadAlta = @Html.Raw(jsonAlta);
+        let AccionesPrioridadMedia = @Html.Raw(jsonMedia);
+        let AccionesPrioridadBaja = @Html.Raw(jsonBaja);
+
+        $(".registro-tabla").click(function () {
+            let id = $(this).data("id");
+            let prioridad = $(this).data("prioridad");
+            switch (prioridad) {
+                case "Alta":
+                    setAccion(id, AccionesPrioridadAlta, "progress-bar progress-bar-red moda-progress-bar", "badge bg-red modal-badge modal-text");
+                    break;
+                case "Media":
+                    setAccion(id, AccionesPrioridadMedia, "progress-bar progress-bar-yellow moda-progress-bar", "badge bg-yellow modal-badge modal-text");
+                    break;
+                case "Baja":
+                    setAccion(id, AccionesPrioridadBaja, "progress-bar progress-bar-green moda-progress-bar", "badge bg-green modal-badge modal-text");
+                    break;
+            }
+            $("#modal-acciones").modal("show")
+        });
+
+
+        const setAccion = (id, json, colorBar, color) => {
+            var registroEncontrado = $.grep(json, function (elemento, indice) {
+                return elemento.Id == id;
+            });
+            $(".modal-text").empty()
+            $(".modal-titulo").append(registroEncontrado[0].Titulo)
+            $(".modal-descripcion").append(registroEncontrado[0].Descripcion)
+            $(".moda-progress-bar").css('width', registroEncontrado[0].Porcentaje + '%');
+            $('#progress-bar').removeClass();
+            $('#progress-bar').addClass(colorBar);
+            $('.modal-badge').append(registroEncontrado[0].Porcentaje + '%');
+            $('#modal-badge').removeClass();
+            $('#modal-badge').addClass(color);
+        }
+
+    });
+
+</script>
